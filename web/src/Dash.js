@@ -1,15 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useEffect, useState, Component } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import MetaTags from "react-meta-tags";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-const axios = require("axios").default;
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", 'echo-protocol');
 
 function Dash() {
-  const apiServer = "http://localhost:3001/";
   // var serialStatus = "Inte ansluten";
 
   const [serialStatus, setSerialStatus] = useState("Inte ansluten");
@@ -96,21 +94,6 @@ function Dash() {
         type: "lightControl",
       })
     );
-
-    // axios
-    //   .post(apiServer + onOrOff, {
-    //     ledId: whatLed,
-    //   })
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //     console.log("LEDs status: ", leds);
-    //     var tempArray = leds;
-    //     const index = tempArray.find((id) => id.id == whatLed);
-    //     console.log("tempArray index id", index);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   }
 
   return (
@@ -150,40 +133,6 @@ function Dash() {
                   Kontrollpanel
                 </a>
               </li>
-              {/* <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li> */}
-              {/* <li className="nav-item">
-                  <a className="nav-link disabled">Disabled</a>
-                </li> */}
             </ul>
           </div>
         </div>
@@ -196,8 +145,6 @@ function Dash() {
         <h5>Härifrån kan du styra hela Trossö</h5>
 
         <div className="border p-3 container-sm rounded">
-          
-      
           <button
             onClick={(e) => testWebsocket("HEJ FRÅN WEBSOCKET")}
             className={"btn btn-primary"}
