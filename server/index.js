@@ -122,7 +122,10 @@ const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 // parser.on('data', console.log)
 
 function changeLed(ledId, state) {
-  const message = "set " + ledId + " " + state;
+  if(state == "on") state="1"
+  if(state == "off") state="0"
+  
+  const message = "set," + ledId + "," + state;
 
   comPort.write(Buffer.from(message), function (err) {
     if (err) {
