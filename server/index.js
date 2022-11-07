@@ -71,11 +71,14 @@ wsServer.on("request", function (request) {
 				if (jsonMessage.type === "getAllLights") {
 					connection.sendUTF("du frågade om alla lampor");
 				}
+				if (jsonMessage.type === "checkSerial") {
+					connection.sendUTF(serialStatus);
+				}
 			} catch {
 				connection.sendUTF("Error with JSON.parse");
 			}
 
-			connection.sendUTF(message.utf8Data);
+			// connection.sendUTF(message.utf8Data);
 		} else if (message.type === "binary") {
 			console.log(
 				"Received Binary Message of " +
