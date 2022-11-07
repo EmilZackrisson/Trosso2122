@@ -2,28 +2,21 @@ const { SerialPort } = require("serialport");
 const comPort = new SerialPort({ path: "COM9", baudRate: 115200 });
 const { ReadlineParser } = require("@serialport/parser-readline"); // Library for decoding data from serial
 const bodyParser = require("body-parser");
-// const { JsonDB } = require ('node-json-db');
-// const { Config } = require ('node-json-db/dist/lib/JsonDBConfig')
 const cors = require("cors");
 var WebSocketServer = require("websocket").server;
 const http = require("http");
-// const express = require("express");
-// const { json } = require("express");
-// const { connection } = require("websocket");
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+// var five = require("johnny-five"),
+//   board = new five.Board({
+//     port: "COM5",
+//   });
+
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
 const webSocketsServerPort = 8000;
-
-// // const app = express();
-// const port = 3001;
-// app.use(cors(corsOptions));
-// app.use(bodyParser.urlencoded({ extended: false }));
-// // parse application/json
-// app.use(bodyParser.json());
 
 var server = http.createServer(function (request, response) {
   console.log(new Date() + " Received request for " + request.url);
@@ -45,7 +38,6 @@ wsServer = new WebSocketServer({
 });
 
 function originIsAllowed(origin) {
-  // put logic here to detect whether the specified origin is allowed.
   return true;
 }
 
@@ -86,16 +78,16 @@ wsServer.on("request", function (request) {
     }
   });
 
-  connection.sendUTF(serialStatus)
+  connection.sendUTF(serialStatus);
 
   parser.on("data", function (data) {
     console.log("From Arduino: ", data);
     let arduinoData = {
       type: "Arduino Data",
-      data: data
-    }
+      data: data,
+    };
     arduinoData = JSON.stringify(arduinoData);
-    connection.sendUTF(arduinoData)
+    connection.sendUTF(arduinoData);
     if (data == "Enter data:") {
       serialStatus = "Serial Ansluten!";
       connection.sendUTF(serialStatus);
@@ -122,9 +114,9 @@ const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 // parser.on('data', console.log)
 
 function changeLed(ledId, state) {
-  if(state == "on") state="1"
-  if(state == "off") state="0"
-  
+  if (state == "on") state = "1";
+  if (state == "off") state = "0";
+
   const message = "set," + ledId + "," + state;
 
   comPort.write(Buffer.from(message), function (err) {
@@ -136,8 +128,6 @@ function changeLed(ledId, state) {
     return ledId + " " + state;
   });
 }
-
-
 
 // Open errors will be emitted as an error event
 comPort.on("error", function (err) {

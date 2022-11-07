@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "http": "^0.0.1-security",
+    "johnny-five": "^2.1.0",
     "node-json-db": "^2.1.0",
     "serialport": "^10.4.0",
     "websocket": "^1.0.34"

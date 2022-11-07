@@ -1,0 +1,38 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+.dash {
+	display: flex;
+	justify-content: center;
+}
+
+header {
+	width: 100%;
+	height: 50px;
+	background-color: cadetblue;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+nav {
+	display: flex;
+	margin-right: 10px;
+	gap: 10px;
+}
+
+nav > a {
+	text-decoration-line: none;
+	color: black;
+	font-size: 1.2rem;
+}
+
+#active {
+	text-decoration-line: underline;
+}
+
+#dashHeader {
+	margin: 10px;
+}
