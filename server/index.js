@@ -1,5 +1,5 @@
 const { SerialPort } = require("serialport");
-const comPort = new SerialPort({ path: "COM9", baudRate: 115200 });
+const comPort = new SerialPort({ path: "COM9", baudRate: 9600 });
 const { ReadlineParser } = require("@serialport/parser-readline"); // Library for decoding data from serial
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -125,8 +125,8 @@ const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 // parser.on('data', console.log)
 
 function changeLed(ledId, state) {
-	if (state == "on") state = "1";
-	if (state == "off") state = "0";
+	if (state == true) state = "1";
+	if (state == false) state = "0";
 
 	const message = "set," + ledId + "," + state;
 

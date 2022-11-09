@@ -4,6 +4,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.setTimeout(200);
+  Serial.println("Enter data:");
 }
 
 void loop() {
@@ -15,7 +16,8 @@ void loop() {
     state = Serial.readStringUntil('\n');  // writes in the string all the inputs till the end of line character
 
     if(action == "set"){
-      changeLed(pin, state);
+      Serial.println(changeLed(pin, state));
+      Serial.println("Enter data:");
     }
   }
 }
@@ -25,5 +27,13 @@ String changeLed(String pin, String state){
   int stateInt = state.toInt();
 
   digitalWrite(pinInt, stateInt);
-  return String(pinInt) + " is " + String(stateInt);
+
+  if(stateInt == 1){
+    bool state = true;
+  }
+  else{
+    bool state = false;
+  }
+
+  return String(pinInt) + " is " + String(state);
 }
