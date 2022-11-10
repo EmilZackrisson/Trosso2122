@@ -83,7 +83,7 @@ function Dash() {
 				}
 				newState[index].state = boolState;
 
-				setAllLeds(newState);
+				setAllLeds([...newState]);
 
 				console.log(allLeds);
 			}
