@@ -95,3 +95,17 @@ html {
 	/* in order: x offset, y offset, blur size, spread size, color */
 	/* blur size and spread size are optional (they default to 0) */
 }
+
+.not-visible {
+	display: none;
+}
+
+.empty-list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: white;
+	background-color: rgba(255, 0, 0, 0.2);
+	padding: 50px;
+	border-radius: 10px;
+}

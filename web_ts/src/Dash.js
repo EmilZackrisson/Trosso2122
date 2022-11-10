@@ -1,5 +1,5 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Dash.css";
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
@@ -9,33 +9,7 @@ const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
 function Dash() {
 	const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
-	const [allLeds, setAllLeds] = useState([
-		{
-			id: 13,
-			state: false,
-			name: "Built In",
-		},
-		{
-			id: 2,
-			state: false,
-			name: "Grön",
-		},
-		{
-			id: 3,
-			state: false,
-			name: "Orange",
-		},
-		{
-			id: 4,
-			state: false,
-			name: "Test 4",
-		},
-		{
-			id: 5,
-			state: false,
-			name: "Test 5",
-		},
-	]);
+	const [allLed, setAllLeds] = useState([]);
 
 	client.onopen = () => {
 		console.log("WebSocket Client Connected");
@@ -44,10 +18,12 @@ function Dash() {
 	client.onclose = function () {
 		console.log("echo-protocol Client Closed");
 		setWebsocketStatus("Websocket: 🟥");
+		setSerialStatus("Serial: 🟥");
 	};
 	client.onerror = function () {
 		console.log("Connection Error");
 		setWebsocketStatus("Websocket: 🟥 Error");
+		setSerialStatus("Serial: 🟥");
 	};
 	client.onmessage = (message) => {
 		console.log("message.data:", message.data);
@@ -59,49 +35,19 @@ function Dash() {
 			setSerialStatus("Serial: 🟥");
 			return;
 		}
-
-		try {
-			const jsonMessage = JSON.parse(message.data);
-
-			if (jsonMessage.data.includes("is")) {
-				// Arduino Sent LED state
-
-				const data = jsonMessage.data;
-				const dataArr = data.split(" ");
-
-				let newState = allLeds;
-				const index = allLeds.findIndex((led) => led.id === Number(dataArr[0]));
-				// console.log(dataArr);
-				if(dataArr[2] === "1"){
-					var boolState = true;
-				}
-				else if(dataArr[2] === "0"){
-					var boolState = false;
-				}
-				else{
-					console.log("error with new state", dataArr)
-				}
-				newState[index].state = boolState;
-
-				setAllLeds([...newState]);
-
-				console.log(allLeds);
+		if (message.data.includes("Server")) {
+			try {
+				const serverJson = JSON.parse(message.data);
+				serverJson.splice(0, 1);
+				setAllLeds([...serverJson]);
+			} catch (error) {
+				console.log(error);
 			}
-		} catch (error) {
-			console.log(error)
+			console.log("allLedTest", allLed);
 		}
 	};
 
 	function controlLed(led) {
-		// console.log(led);
-		// console.log(
-		// 	JSON.stringify({
-		// 		type: "lightControl",
-		// 		ledId: led.id,
-		// 		toState: !led.state,
-		// 	})
-		// );
-
 		client.send(
 			JSON.stringify({
 				type: "lightControl",
@@ -111,9 +57,21 @@ function Dash() {
 		);
 	}
 
-	useEffect(() => {
-		console.log("LED CHANGED", allLeds);
-	}, [allLeds]);
+	if (allLed.length === 0) {
+		var emptyListMessageTitle = "Anslut till servern";
+		var emptyListMessage = "Listan med lampor är tom";
+		var emptylistClass = "empty-list";
+	}
+	if (serialStatus.includes("🟥")) {
+		var emptyListMessageTitle = "Anslut servern till Arduino";
+		var emptyListMessage = "Serial inte ansluten";
+	}
+	if (websocketStatus.includes("🟥")) {
+		var emptyListMessageTitle = "Anslut till servern";
+		var emptyListMessage = "Inte ansluten till servern med Websocket";
+	} else {
+		var emptylistClass = "not-visible";
+	}
 
 	return (
 		<div className="Dash">
@@ -149,18 +107,21 @@ function Dash() {
 				<p>Här kan du styra hela Trossö</p>
 			</section>
 			<section className="ledList">
-				{allLeds.map((led) => {
+				<div className={emptylistClass}>
+					<h1>{emptyListMessageTitle}</h1>
+					<p>{emptyListMessage}</p>
+				</div>
 
-					var classes = "led "
+				{allLed.map((led) => {
+					var classes = "led ";
 
-					if(led.state){ 
-						var state = "PÅ"
-						var toState = "SLÅ AV"
-						classes = classes + "ledOn"
-					}
-					else{
-						var state = "AV"
-						var toState = "SLÅ PÅ"
+					if (led.state) {
+						var state = "PÅ";
+						var toState = "SLÅ AV";
+						classes = classes + "ledOn";
+					} else {
+						var state = "AV";
+						var toState = "SLÅ PÅ";
 					}
 
 					return (
@@ -168,7 +129,6 @@ function Dash() {
 							<p>Namn: {led.name}</p>
 							<p>Tillstånd: {state}</p>
 							<p>Pin: {led.id}</p>
-							
 
 							<button
 								className="ledButton"
