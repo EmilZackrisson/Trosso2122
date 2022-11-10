@@ -167,11 +167,3 @@ comPort.on("error", function (err) {
 		console.log("SerialStatus: ", serialStatus);
 	}
 });
-
-// app.get("/serialStatus", (req, res) => {
-//   res.send(serialStatus);
-// });
-
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
-// });
