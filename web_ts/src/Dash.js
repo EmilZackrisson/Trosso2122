@@ -57,18 +57,22 @@ function Dash() {
 		);
 	}
 
+	var classes;
 	if (allLed.length === 0) {
 		var emptyListMessageTitle = "Anslut till servern";
 		var emptyListMessage = "Listan med lampor är tom";
 		var emptylistClass = "empty-list";
+		classes = classes + " not-visible";
 	}
 	if (serialStatus.includes("🟥")) {
 		var emptyListMessageTitle = "Anslut servern till Arduino";
 		var emptyListMessage = "Serial inte ansluten";
+		classes = classes + " not-visible";
 	}
 	if (websocketStatus.includes("🟥")) {
 		var emptyListMessageTitle = "Anslut till servern";
 		var emptyListMessage = "Inte ansluten till servern med Websocket";
+		classes = classes + " not-visible";
 	} else {
 		var emptylistClass = "not-visible";
 	}
@@ -113,7 +117,7 @@ function Dash() {
 				</div>
 
 				{allLed.map((led) => {
-					var classes = "led ";
+					classes = classes + " led ";
 
 					if (led.state) {
 						var state = "PÅ";
