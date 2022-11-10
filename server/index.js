@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 var WebSocketServer = require("websocket").server;
 const http = require("http");
+const { stringify } = require("querystring");
 
 // var five = require("johnny-five"),
 //   board = new five.Board({
@@ -41,6 +42,37 @@ function originIsAllowed(origin) {
 	return true;
 }
 
+var ledStates = [
+	{
+		source: "Server",
+	},
+	{
+		id: 13,
+		state: false,
+		name: "Built In",
+	},
+	{
+		id: 2,
+		state: false,
+		name: "Grön",
+	},
+	{
+		id: 3,
+		state: false,
+		name: "Orange",
+	},
+	{
+		id: 4,
+		state: false,
+		name: "Test 4",
+	},
+	{
+		id: 5,
+		state: false,
+		name: "Test 5",
+	},
+];
+
 wsServer.on("request", function (request) {
 	if (!originIsAllowed(request.origin)) {
 		// Make sure we only accept requests from an allowed origin
@@ -55,6 +87,7 @@ wsServer.on("request", function (request) {
 	}
 
 	var connection = request.accept("echo-protocol", request.origin);
+	connection.sendUTF(JSON.stringify(ledStates));
 	console.log(new Date() + " Connection accepted.");
 
 	connection.on("message", function (message) {
@@ -69,7 +102,8 @@ wsServer.on("request", function (request) {
 					changeLed(jsonMessage.ledId, jsonMessage.toState);
 				}
 				if (jsonMessage.type === "getAllLights") {
-					connection.sendUTF("du frågade om alla lampor");
+					// connection.sendUTF("du frågade om alla lampor");
+					connection.sendUTF(JSON.stringify(ledStates));
 				}
 				if (jsonMessage.type === "checkSerial") {
 					connection.sendUTF(serialStatus);
@@ -103,6 +137,18 @@ wsServer.on("request", function (request) {
 			serialStatus = "Serial Ansluten!";
 			connection.sendUTF(serialStatus);
 		}
+		if (data.includes("is")) {
+			// console.log("contains is");
+			stateFromArduino = data.split(" ");
+			const index = ledStates.findIndex(
+				(led) => led.id === Number(stateFromArduino[0])
+			);
+			const newState = Boolean(Number(stateFromArduino[2]));
+
+			ledStates[index].state = newState;
+			console.log(ledStates);
+			connection.sendUTF(JSON.stringify(ledStates));
+		}
 	});
 
 	connection.on("close", function (reasonCode, description) {
@@ -115,10 +161,6 @@ wsServer.on("request", function (request) {
 var debug = true; // Doesn't send serial
 
 var serialStatus = "Inte ansluten";
-
-var leds = {
-	builtIn: false,
-};
 
 // Read and print data
 const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
