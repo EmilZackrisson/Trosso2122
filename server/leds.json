@@ -5,26 +5,36 @@
     {
         "id": 13,
         "state": false,
-        "name": "Built In"
+        "name": "Built In",
+        "info": "Denna LED sitter direkt på Arduinon",
+        "disabled": false
     },
     {
         "id": 2,
         "state": false,
-        "name": "Grön"
+        "name": "Grön",
+        "info": "Denna LED är grön",
+        "disabled": false
     },
     {
         "id": 3,
         "state": false,
-        "name": "Orange"
+        "name": "Orange",
+        "info": "Denna LED är orange",
+        "disabled": false
     },
     {
         "id": 4,
         "state": false,
-        "name": "Test 4"
+        "name": "Test 4",
+        "info": "Denna LED är röd och funkar inte",
+        "disabled": true
     },
     {
         "id": 5,
         "state": false,
-        "name": "Test 5"
+        "name": "Test 5",
+        "info": "Denna LED är blå och lyser svagt",
+        "disabled": false
     }
 ]
