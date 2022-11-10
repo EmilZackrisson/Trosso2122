@@ -42,36 +42,13 @@ function originIsAllowed(origin) {
 	return true;
 }
 
-var ledStates = [
-	{
-		source: "Server",
-	},
-	{
-		id: 13,
-		state: false,
-		name: "Built In",
-	},
-	{
-		id: 2,
-		state: false,
-		name: "Grön",
-	},
-	{
-		id: 3,
-		state: false,
-		name: "Orange",
-	},
-	{
-		id: 4,
-		state: false,
-		name: "Test 4",
-	},
-	{
-		id: 5,
-		state: false,
-		name: "Test 5",
-	},
-];
+var ledStates;
+
+try {
+	ledStates = require("./leds.json");
+} catch (err) {
+	console.log("LOAD JSON FILE ERR", err);
+}
 
 wsServer.on("request", function (request) {
 	if (!originIsAllowed(request.origin)) {

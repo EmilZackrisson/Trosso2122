@@ -1,0 +1,30 @@
+[
+    {
+        "source": "Server"
+    },
+    {
+        "id": 13,
+        "state": false,
+        "name": "Built In"
+    },
+    {
+        "id": 2,
+        "state": false,
+        "name": "Grön"
+    },
+    {
+        "id": 3,
+        "state": false,
+        "name": "Orange"
+    },
+    {
+        "id": 4,
+        "state": false,
+        "name": "Test 4"
+    },
+    {
+        "id": 5,
+        "state": false,
+        "name": "Test 5"
+    }
+]
