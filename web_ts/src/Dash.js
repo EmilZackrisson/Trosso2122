@@ -122,21 +122,31 @@ function Dash() {
 			</section>
 			<section className="ledList">
 				{allLeds.map((led) => {
-					// if (led.state == true) var state = "PÅ";
-					// else var state = "AV";
+
+					var classes = "led "
+
+					if(led.state){ 
+						var state = "PÅ"
+						var toState = "SLÅ AV"
+						classes = classes + "ledOn"
+					}
+					else{
+						var state = "AV"
+						var toState = "SLÅ PÅ"
+					}
 
 					return (
-						<div className="led" key={led.id}>
-							<p>{led.id}</p>
-							<p>{led.name}</p>
-							<p>{String(led.state)}</p>
+						<div className={classes} key={led.id}>
+							<p>Pin: {led.id}</p>
+							<p>Namn: {led.name}</p>
+							<p>Tillstånd: {state}</p>
 
 							<button
 								className="ledButton"
 								onClick={(e) => {
 									controlLed(led);
 								}}>
-								{String(!led.state)}
+								{toState}
 							</button>
 						</div>
 					);
