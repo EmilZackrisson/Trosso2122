@@ -1,7 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState, useEffect } from "react";
 import "./Dash.css";
-import { render } from "react-dom";
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
 
@@ -14,12 +13,27 @@ function Dash() {
 		{
 			id: 13,
 			state: false,
-			name: "Test",
+			name: "Built In",
 		},
 		{
-			id: 12,
-			state: true,
-			name: "Test 2",
+			id: 2,
+			state: false,
+			name: "Grön",
+		},
+		{
+			id: 3,
+			state: false,
+			name: "Orange",
+		},
+		{
+			id: 4,
+			state: false,
+			name: "Test 4",
+		},
+		{
+			id: 5,
+			state: false,
+			name: "Test 5",
 		},
 	]);
 
@@ -37,11 +51,13 @@ function Dash() {
 	};
 	client.onmessage = (message) => {
 		console.log("message.data:", message.data);
-		if (message.data == "Serial Ansluten!") {
+		if (message.data === "Serial Ansluten!") {
 			setSerialStatus("Serial: ✅");
+			return;
 		}
 		if (message.data.includes("Inte Ansluten")) {
 			setSerialStatus("Serial: 🟥");
+			return;
 		}
 
 		try {
@@ -53,15 +69,27 @@ function Dash() {
 				const data = jsonMessage.data;
 				const dataArr = data.split(" ");
 
-				const newState = allLeds;
-				const index = allLeds.findIndex((led) => led.id == dataArr[0]);
-				newState[index].state = Boolean(parseInt(dataArr[2]));
+				let newState = allLeds;
+				const index = allLeds.findIndex((led) => led.id === Number(dataArr[0]));
+				// console.log(dataArr);
+				if(dataArr[2] === "1"){
+					var boolState = true;
+				}
+				else if(dataArr[2] === "0"){
+					var boolState = false;
+				}
+				else{
+					console.log("error with new state", dataArr)
+				}
+				newState[index].state = boolState;
 
 				setAllLeds(newState);
 
 				console.log(allLeds);
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	};
 
 	function controlLed(led) {
@@ -88,8 +116,8 @@ function Dash() {
 	}, [allLeds]);
 
 	return (
-		<div className="div">
-			<header>
+		<div className="Dash">
+			<header className="dash-header">
 				<h2>Kontrollpanel</h2>
 				<section className="connectivityStatus">
 					<p
@@ -108,7 +136,7 @@ function Dash() {
 						{websocketStatus}
 					</p>
 				</section>
-				<nav>
+				<nav className="dash-nav">
 					<a href="/">Hem</a>
 					<a href="/Dash" id="navSelected">
 						Kontrollpanel
@@ -137,9 +165,10 @@ function Dash() {
 
 					return (
 						<div className={classes} key={led.id}>
-							<p>Pin: {led.id}</p>
 							<p>Namn: {led.name}</p>
 							<p>Tillstånd: {state}</p>
+							<p>Pin: {led.id}</p>
+							
 
 							<button
 								className="ledButton"
