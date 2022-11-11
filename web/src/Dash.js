@@ -1,197 +1,150 @@
-import logo from "./logo.svg";
-import "./App.css";
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import MetaTags from "react-meta-tags";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import React, { useState } from "react";
+import "./Dash.css";
 
-const client = new W3CWebSocket("ws://127.0.0.1:8000", 'echo-protocol');
+const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
+
+// ✅🟥
 
 function Dash() {
-  // var serialStatus = "Inte ansluten";
+	const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
+	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
+	const [allLed, setAllLeds] = useState([]);
 
-  const [serialStatus, setSerialStatus] = useState("Inte ansluten");
-  const [websocketStatus, setWebsocketStatus] = useState("Inte ansluten")
+	client.onopen = () => {
+		console.log("WebSocket Client Connected");
+		setWebsocketStatus("Websocket: ✅");
+	};
+	client.onclose = function () {
+		console.log("echo-protocol Client Closed");
+		setWebsocketStatus("Websocket: 🟥");
+		setSerialStatus("Serial: 🟥");
+	};
+	client.onerror = function () {
+		console.log("Connection Error");
+		setWebsocketStatus("Websocket: 🟥 Error");
+		setSerialStatus("Serial: 🟥");
+	};
+	client.onmessage = (message) => {
+		console.log("message.data:", message.data);
+		if (message.data === "Serial Ansluten!") {
+			setSerialStatus("Serial: ✅");
+			return;
+		}
+		if (message.data.includes("Inte Ansluten")) {
+			setSerialStatus("Serial: 🟥");
+			return;
+		}
+		if (message.data.includes("Server")) {
+			try {
+				const serverJson = JSON.parse(message.data);
+				serverJson.splice(0, 1);
+				setAllLeds([...serverJson]);
+			} catch (error) {
+				console.log(error);
+			}
+			console.log("allLedTest", allLed);
+		}
+	};
 
-  client.onopen = () => {
-    console.log("WebSocket Client Connected");
-    setWebsocketStatus("Ansluten")
-  };
+	function controlLed(led) {
+		client.send(
+			JSON.stringify({
+				type: "lightControl",
+				ledId: led.id,
+				toState: !led.state,
+			})
+		);
+	}
 
-  client.onmessage = (message) => {
-    
-    if(message.data == "Serial Ansluten!"){
-      setSerialStatus("Serial Ansluten!")
-    }
-    try{
-      const jsonData = JSON.parse(message.data)
-      if(jsonData.type == "Arduino Data"){
-        const arduinoData = jsonData.data;
-        // console.log("Arduino DATA: ", arduinoData)
-        var arduinoDataArray = arduinoData.split(" ");
+	if (allLed.length === 0) {
+		var emptyListMessageTitle = "Anslut till servern";
+		var emptyListMessage = "Listan med lampor är tom";
+		var emptylistClass = "empty-list";
+	}
+	if (serialStatus.includes("🟥")) {
+		var emptyListMessageTitle = "Anslut servern till Arduino";
+		var emptyListMessage = "Serial inte ansluten";
+	}
+	if (websocketStatus.includes("🟥")) {
+		var emptyListMessageTitle = "Anslut till servern";
+		var emptyListMessage = "Inte ansluten till servern med Websocket";
+	} else {
+		var emptylistClass = "not-visible";
+	}
 
-        if(arduinoDataArray[1] == "is"){
-          console.log("Arduino DATA: ", arduinoData)
+	return (
+		<div className="Dash">
+			<header className="dash-header">
+				<h2>Kontrollpanel</h2>
+				<section className="connectivityStatus">
+					<p
+						onClick={(e) =>
+							client.send(JSON.stringify({ type: "checkSerial" }))
+						}>
+						{serialStatus}
+					</p>
 
+					<p
+						onClick={(e) =>
+							client.send(
+								JSON.stringify({ type: "getAllLights" })
+							)
+						}>
+						{websocketStatus}
+					</p>
+				</section>
+				<nav className="dash-nav">
+					<a href="/">Hem</a>
+					<a href="/Dash" id="navSelected">
+						Kontrollpanel
+					</a>
+				</nav>
+			</header>
 
-          // Change led state in useState array
-          const newState = [...leds];
-          const index = leds.findIndex(x => x.id === arduinoDataArray[0]);
-          newState[index].state = arduinoDataArray[2];
-          // console.log("New State: ",newState)
-          setLeds(newState);
+			<section className="bigSection">
+				<h1>Kontrollpanel</h1>
+				<p>Här kan du styra hela Trossö</p>
+			</section>
+			<section className="ledList">
+				<div className={emptylistClass}>
+					<h1>{emptyListMessageTitle}</h1>
+					<p>{emptyListMessage}</p>
+				</div>
 
+				{allLed.map((led) => {
+					var classes = " led ";
 
-        }
+					if (led.state) {
+						var state = "PÅ";
+						var toState = "SLÅ AV";
+						classes = classes + "ledOn";
+					} else {
+						var state = "AV";
+						var toState = "SLÅ PÅ";
+					}
 
-      }
-      
-    }
-    catch{
-      console.log(message.data);
-    }
-  };
+					return (
+						<div className={classes} key={led.id}>
+							<p>Namn: {led.name}</p>
+							<p>Tillstånd: {state}</p>
+							<p>Pin: {led.id}</p>
+							<p>{led.info}</p>
 
-  client.onclose = function () {
-    console.log("echo-protocol Client Closed");
-    setWebsocketStatus("Inte ansluten")
-  };
-
-  client.onerror = function() {
-    console.log('Connection Error');
-};
-
-  const [leds, setLeds] = useState([
-    {
-      id: "builtIn",
-      name: "Inbyggd LED",
-      state: "off",
-    },
-    {
-      id: "test1",
-      name: "Test LED 1",
-      state: "off",
-    },
-  ]);
-
-
-
-  function testWebsocket(message) {
-    console.log("TEST WEBSOCKET CLICKED");
-    client.send(
-      JSON.stringify({
-        message: message,
-        type: "message",
-      })
-    );
-  }
-
-  function controlLed(whatLed, onOrOff) {
-    client.send(
-      JSON.stringify({
-        ledId: whatLed.id,
-        toState: onOrOff,
-        type: "lightControl",
-      })
-    );
-  }
-
-  return (
-    <>
-      <MetaTags>
-        <title>Kontrollpanel - Trossö 2122</title>
-        <meta name="description" content="Styr en modell av Trossö" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </MetaTags>
-
-      <nav className="navbar navbar-expand-lg bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Trossö 2122
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link " aria-current="page" href="/">
-                  Hem
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="/dash">
-                  Kontrollpanel
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <p>{serialStatus}</p>
-        <p>{websocketStatus}</p>
-      </nav>
-
-      <div className="container-fluid d-flex flex-column text-center">
-        <h1 className="">Kontrollpanel</h1>
-        <h5>Härifrån kan du styra hela Trossö</h5>
-
-        <div className="border p-3 container-sm rounded">
-          <button
-            onClick={(e) => testWebsocket("HEJ FRÅN WEBSOCKET")}
-            className={"btn btn-primary"}
-          >
-            Testa WebSocket
-          </button>
-        </div>
-
-        <div>
-          {leds.map((led) => {
-            const name = led.name;
-            const id = led.id;
-            const state = led.state;
-
-
-            return (
-              <>
-                <div className="border p-3 container-sm rounded">
-                  <p>{led.name} - {state}</p>
-                  <div className="d-flex justify-content-center gap-5">
-                    <button
-                      onClick={(e) => controlLed({ id }, "on")}
-                      className={"btn btn-primary"}
-                    >
-                      Tänd
-                    </button>
-                    <button
-                      onClick={(e) => controlLed({ id }, "off")}
-                      className={"btn btn-primary"}
-                    >
-                      Släck
-                    </button>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </div>
-
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-          crossOrigin="anonymous"
-        ></script>
-      </div>
-    </>
-  );
+							<button
+								className="ledButton"
+								onClick={(e) => {
+									controlLed(led);
+								}}
+								disabled={led.disabled}>
+								{toState}
+							</button>
+						</div>
+					);
+				})}
+			</section>
+		</div>
+	);
 }
 
 export default Dash;
