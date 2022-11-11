@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import Dash from "./Dash";
+import Login from "./Login";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -13,6 +14,7 @@ root.render(
 			<Routes>
 				<Route path="/" element={<App />} />
 				<Route path="/dash" element={<Dash />} />
+				<Route path="/login" element={<Login />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

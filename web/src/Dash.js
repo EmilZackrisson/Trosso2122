@@ -1,5 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Dash.css";
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
@@ -10,6 +11,16 @@ function Dash() {
 	const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
+	const [resTime, setResTime] = useState(...[resTimeArray]);
+	var resTimeArray = [];
+	var reloaded = false;
+
+	const navigate = useNavigate();
+
+	var cookie = document.cookie;
+	if (!cookie.includes("loggedIn=true;")) {
+		navigate("/Login");
+	}
 
 	client.onopen = () => {
 		console.log("WebSocket Client Connected");
@@ -105,6 +116,7 @@ function Dash() {
 			<section className="bigSection">
 				<h1>Kontrollpanel</h1>
 				<p>Här kan du styra hela Trossö</p>
+				<p>Res tid: {resTime}</p>
 			</section>
 			<section className="ledList">
 				<div className={emptylistClass}>
