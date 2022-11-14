@@ -11,9 +11,6 @@ function Dash() {
 	const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
-	const [resTime, setResTime] = useState(...[resTimeArray]);
-	var resTimeArray = [];
-	var reloaded = false;
 
 	const navigate = useNavigate();
 
@@ -87,7 +84,7 @@ function Dash() {
 	return (
 		<div className="Dash">
 			<header className="dash-header">
-				<h2>Kontrollpanel</h2>
+				<h2>Trossö 2122</h2>
 				<section className="connectivityStatus">
 					<p
 						onClick={(e) =>
@@ -116,7 +113,7 @@ function Dash() {
 			<section className="bigSection">
 				<h1>Kontrollpanel</h1>
 				<p>Här kan du styra hela Trossö</p>
-				<p>Res tid: {resTime}</p>
+				
 			</section>
 			<section className="ledList">
 				<div className={emptylistClass}>
