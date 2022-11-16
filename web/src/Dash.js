@@ -15,9 +15,9 @@ function Dash() {
 	const navigate = useNavigate();
 
 	var cookie = document.cookie;
-	if (!cookie.includes("loggedIn=true;")) {
-		navigate("/Login");
-	}
+	// if (!cookie.includes("loggedIn=true;")) {
+	// 	navigate("/Login");
+	// }
 
 	client.onopen = () => {
 		console.log("WebSocket Client Connected");
@@ -92,7 +92,6 @@ function Dash() {
 						}>
 						{serialStatus}
 					</p>
-
 					<p
 						onClick={(e) =>
 							client.send(
