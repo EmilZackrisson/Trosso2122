@@ -125,7 +125,9 @@ html {
     /* blur size and spread size are optional (they default to 0) */
 }
 
-.ledButton:hover:disabled {}
+.ledButton:hover:disabled {
+    background-color: red;
+}
 
 .not-visible {
     display: none;

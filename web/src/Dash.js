@@ -145,7 +145,9 @@ function Dash() {
 							<button
 								className="ledButton"
 								onClick={(e) => {
-									controlLed(led);
+									if(!led.disabled){
+										controlLed(led);
+									}
 								}}
 								disabled={led.disabled}>
 								{toState}
