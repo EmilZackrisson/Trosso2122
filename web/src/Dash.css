@@ -1,10 +1,18 @@
+/*
+
+    Bakgrundsfärg: #303030
+    Nav&Header färg: #212121
+    Card color: #424242    
+
+*/
+
 * {
     box-sizing: border-box;
     margin: 0;
 }
 
 html {
-    background-color: #121212;
+    background-color: #303030;
 }
 
 .Dash {
@@ -21,7 +29,7 @@ html {
     justify-content: space-between;
     height: 50px;
     /* background-color: #06283d; */
-    background-color: rgba(255, 255, 255, 0.16);
+    background-color: #212121;
     padding-left: 10%;
     padding-right: 10%;
 }
@@ -65,7 +73,7 @@ html {
     justify-content: center;
     align-items: center;
     /* background-color: #121212; */
-    background-color: rgba(255, 255, 255, 0.11);
+    background-color: #212121;
     color: white;
 }
 
@@ -97,7 +105,7 @@ html {
     display: flex;
     flex-direction: column;
     color: white;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: #424242;
     /* opacity: 0.05; */
     width: 100%;
     height: fit-content;
@@ -107,6 +115,7 @@ html {
     /* border-style: solid; */
     border-radius: 20px;
     padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .ledOn {
@@ -115,6 +124,8 @@ html {
     /* in order: x offset, y offset, blur size, spread size, color */
     /* blur size and spread size are optional (they default to 0) */
 }
+
+.ledButton:hover:disabled {}
 
 .not-visible {
     display: none;

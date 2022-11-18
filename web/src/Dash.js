@@ -131,6 +131,9 @@ function Dash() {
 						var state = "AV";
 						var toState = "SLÅ PÅ";
 					}
+					if(serialStatus.includes("🟥")){
+						led.disabled = true;
+					}
 
 					return (
 						<div className={classes} key={led.id}>
