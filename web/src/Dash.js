@@ -84,7 +84,7 @@ function Dash() {
 	return (
 		<div className="Dash">
 			<header className="dash-header">
-				<h2>Trossö 2122 TEST</h2>
+				<h2>Trossö 2122</h2>
 				<section className="connectivityStatus">
 					<p
 						onClick={(e) =>
