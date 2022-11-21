@@ -11,21 +11,23 @@ on:
 
 jobs:
   build_web:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cd web
-    - run: npm install
-    - run: npm run build
+      - uses: actions/checkout@v3
+      - name: NPM install
+        working-directory: ./web
+        run: npm install
+      - name: Build Web App
+        working-directory: ./web
+        run: npm run build
+
+  build_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: NPM install
+        working-directory: ./server
+        run: npm install
+      - name: Build Server App
+        working-directory: ./server
+        run: npm build
