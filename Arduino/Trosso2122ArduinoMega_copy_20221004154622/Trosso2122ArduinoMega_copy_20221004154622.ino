@@ -3,8 +3,10 @@ String action, pin, state;
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
-  for(int i=2; i<=4; i++){
-    pinMode(i, OUTPUT);
+
+  int pins[3] = {2, 3, 4}; 
+  for(int i=0; i<pins.length(); i++){
+    pinMode(pins[i], OUTPUT);
   }
   pinMode(3, OUTPUT);
   Serial.setTimeout(200);

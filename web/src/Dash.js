@@ -11,16 +11,13 @@ function Dash() {
 	const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
-	const [resTime, setResTime] = useState(...[resTimeArray]);
-	var resTimeArray = [];
-	var reloaded = false;
 
 	const navigate = useNavigate();
 
 	var cookie = document.cookie;
-	if (!cookie.includes("loggedIn=true;")) {
-		navigate("/Login");
-	}
+	// if (!cookie.includes("loggedIn=true;")) {
+	// 	navigate("/Login");
+	// }
 
 	client.onopen = () => {
 		console.log("WebSocket Client Connected");
@@ -87,7 +84,7 @@ function Dash() {
 	return (
 		<div className="Dash">
 			<header className="dash-header">
-				<h2>Kontrollpanel</h2>
+				<h2>Trossö 2122</h2>
 				<section className="connectivityStatus">
 					<p
 						onClick={(e) =>
@@ -95,7 +92,6 @@ function Dash() {
 						}>
 						{serialStatus}
 					</p>
-
 					<p
 						onClick={(e) =>
 							client.send(
@@ -116,7 +112,7 @@ function Dash() {
 			<section className="bigSection">
 				<h1>Kontrollpanel</h1>
 				<p>Här kan du styra hela Trossö</p>
-				<p>Res tid: {resTime}</p>
+				
 			</section>
 			<section className="ledList">
 				<div className={emptylistClass}>
@@ -135,6 +131,9 @@ function Dash() {
 						var state = "AV";
 						var toState = "SLÅ PÅ";
 					}
+					if(serialStatus.includes("🟥")){
+						led.disabled = true;
+					}
 
 					return (
 						<div className={classes} key={led.id}>
@@ -146,7 +145,9 @@ function Dash() {
 							<button
 								className="ledButton"
 								onClick={(e) => {
-									controlLed(led);
+									if(!led.disabled){
+										controlLed(led);
+									}
 								}}
 								disabled={led.disabled}>
 								{toState}
