@@ -20,3 +20,14 @@ jobs:
       - name: Build Web App
         working-directory: ./web
         run: CI=false npm run build
+
+  test_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: NPM install
+        working-directory: ./server
+        run: npm install
+      - name: Test index.js
+        working-directory: ./server
+        run: npm run test
