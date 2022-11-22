@@ -12,14 +12,14 @@ on:
 jobs:
   build_web:
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: NPM install
-          working-directory: ./web
-          run: npm install
-        - name: Build Web App
-          working-directory: ./web
-          run: CI=false npm run build
+    steps:
+      - uses: actions/checkout@v3
+      - name: NPM install
+        working-directory: ./web
+        run: npm install
+      - name: Build Web App
+        working-directory: ./web
+        run: CI=false npm run build
 
   test_server:
     runs-on: ubuntu-latest
