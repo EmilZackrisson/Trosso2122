@@ -10,17 +10,17 @@
         "disabled": false
     },
     {
-        "id": 2,
+        "id": 3,
         "state": false,
         "name": "Grön",
-        "info": "Denna LED är grön",
+        "info": "Denna LED är grön och styrs via transistor",
         "disabled": false
     },
     {
-        "id": 3,
+        "id": 2,
         "state": false,
         "name": "Orange",
-        "info": "Denna LED är orange",
+        "info": "Denna LED är orange och styrs via transistor",
         "disabled": false
     },
     {
@@ -35,6 +35,6 @@
         "state": false,
         "name": "Test 5",
         "info": "Denna LED är blå och lyser svagt",
-        "disabled": false
+        "disabled": true
     }
 ]

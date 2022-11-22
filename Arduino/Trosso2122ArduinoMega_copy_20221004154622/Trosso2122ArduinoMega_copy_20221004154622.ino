@@ -34,10 +34,15 @@ String changeLed(String pin, String state){
 
   if(stateInt == 1){
     bool state = true;
+    return String(pinInt) + " is " + String(state);
+  }
+  else if(stateInt == 0){
+    bool state = false;
+    return String(pinInt) + " is " + String(state);
   }
   else{
-    bool state = false;
+    return "Wrong format, nothing changed";
   }
 
-  return String(pinInt) + " is " + String(state);
+  
 }
