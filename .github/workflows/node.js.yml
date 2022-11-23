@@ -28,6 +28,8 @@ jobs:
       - name: NPM install
         working-directory: ./web
         run: npm install
+      - name: Git Remote
+        run: git remote add origin https://github.com/EmilZackrisson/Trosso2122.git
       - name: Build Web App
         working-directory: ./web
         run: CI=false npm run deploy
