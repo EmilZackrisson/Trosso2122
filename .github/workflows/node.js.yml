@@ -22,15 +22,18 @@ jobs:
      
     steps:
       - uses: actions/checkout@v3
-      - uses: oleksiyrudenko/gha-git-credentials@v2-latest
-        with:
-          token: '${{ secrets.DEPLOY_KEY }}'
       - name: NPM install
         working-directory: ./web
         run: npm install
       - name: Build Web App
         working-directory: ./web
-        run: CI=false npm run deploy
+        run: CI=false npm run build
+      - name: Authorizing Github action
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+        uses: oleksiyrudenko/gha-git-credentials@v1
+      - name: Doploy to GitHub Pages
+        uses: amitsingh-007/deploy-to-github-pages@v1.1
   test_server:
     runs-on: ubuntu-latest
     steps:
