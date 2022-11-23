@@ -1,5 +1,5 @@
 const { SerialPort } = require("serialport");
-const comPort = new SerialPort({ path: "COM9", baudRate: 115200 });
+const comPort = new SerialPort({ path: "COM3", baudRate: 115200 });
 const { ReadlineParser } = require("@serialport/parser-readline"); // Library for decoding data from serial
 const bodyParser = require("body-parser");
 const cors = require("cors");
