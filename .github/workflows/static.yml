@@ -38,7 +38,7 @@ jobs:
           cache: 'npm'
       - name: NPM Install
         working-directory: ./web
-        run: npm ci
+        run: npm install
       - name: Build Web
         working-directory: ./web
         run: npm run build
