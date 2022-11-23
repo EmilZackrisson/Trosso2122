@@ -122,6 +122,7 @@ function Dash() {
 
 				{allLed.map((led) => {
 					var classes = " led ";
+					var disabled = false;
 
 					if (led.state) {
 						var state = "PÅ";
@@ -132,8 +133,12 @@ function Dash() {
 						var toState = "SLÅ PÅ";
 					}
 					if(serialStatus.includes("🟥")){
-						led.disabled = true;
+						disabled = true;
 					}
+					else if(led.disabled === true){
+						disabled = true;
+					}
+					
 
 					return (
 						<div className={classes} key={led.id}>
@@ -149,7 +154,7 @@ function Dash() {
 										controlLed(led);
 									}
 								}}
-								disabled={led.disabled}>
+								disabled={disabled}>
 								{toState}
 							</button>
 						</div>
