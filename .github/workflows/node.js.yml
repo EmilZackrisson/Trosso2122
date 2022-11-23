@@ -11,9 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
       - name: NPM install
         working-directory: ./server
-        run: npm install
+        run: npm ci
       - name: Test index.js
         working-directory: ./server
         run: npm run test
