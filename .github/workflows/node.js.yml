@@ -28,10 +28,11 @@ jobs:
       - name: Build Web App
         working-directory: ./web
         run: CI=false npm run build
-      - name: Doploy to GitHub Pages
-        uses: EdricChan03/action-build-deploy-ghpages@v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.9.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
   test_server:
     runs-on: ubuntu-latest
     steps:
