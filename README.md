@@ -1,4 +1,5 @@
 # Trosso2122
+![example workflow](https://github.com/EmilZackrisson/Trosso2122/actions/workflows/node.js.yml/badge.svg)
 
 Det här är koden för en interaktiv modell av Trossö om 100 år.
 
