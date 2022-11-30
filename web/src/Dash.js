@@ -31,7 +31,7 @@ function Dash() {
 		if (message.data.includes("Websocket is up and running")) {
 			setWebsocketStatus("Websocket: ✅");
 		}
-		if (message.data.includes("Serial Ansluten!")) {
+		if (message.data.includes("Serial ansluten!")) {
 			setSerialStatus("Serial: ✅");
 			return;
 		} else if (message.data.includes("Serial ej ansluten")) {
@@ -51,6 +51,7 @@ function Dash() {
 	};
 
 	function controlLed(led) {
+		console.log(allLed);
 		client.send(
 			JSON.stringify({
 				type: "lightControl",

@@ -5,17 +5,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 var WebSocketServer = require("websocket").server;
 const http = require("http");
+const { connection } = require("websocket");
+const { env } = require("process");
 
-// var five = require("johnny-five"),
-//   board = new five.Board({
-//     port: "COM5",
-//   });
+require("dotenv").config();
 
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
 const webSocketsServerPort = 8000;
 
 var server = http.createServer(function (request, response) {
@@ -26,6 +20,13 @@ var server = http.createServer(function (request, response) {
 server.listen(webSocketsServerPort, function () {
 	console.log(new Date() + " Server is listening on port 8080");
 });
+
+if (process.env.DEMO === "true") {
+	console.log(
+		"%cDEMO MODE",
+		"color: red; font-size: 20px; font-weight: bold;"
+	);
+}
 
 wsServer = new WebSocketServer({
 	httpServer: server,
@@ -63,8 +64,16 @@ wsServer.on("request", function (request) {
 	}
 
 	var connection = request.accept("echo-protocol", request.origin);
-	connection.sendUTF(JSON.stringify(ledStates));
+	function sendStatus() {
+		let status = {
+			serial: serialStatus,
+			websocket: "Websocket is up and running",
+		};
+		connection.sendUTF(JSON.stringify(status));
+	}
 	sendStatus();
+	connection.sendUTF(JSON.stringify(ledStates));
+
 	console.log(new Date() + " Connection accepted.");
 
 	connection.on("message", function (message) {
@@ -76,7 +85,11 @@ wsServer.on("request", function (request) {
 				console.log("JSON: ", jsonMessage);
 
 				if (jsonMessage.type === "lightControl") {
-					changeLed(jsonMessage.ledId, jsonMessage.toState);
+					if (!process.env.DEMO === "true") {
+						changeLed(jsonMessage.ledId, jsonMessage.toState);
+					} else {
+						changeDummyLed(jsonMessage.ledId, jsonMessage.toState);
+					}
 				}
 				if (jsonMessage.type === "getAllLights") {
 					// connection.sendUTF("du frågade om alla lampor");
@@ -104,16 +117,6 @@ wsServer.on("request", function (request) {
 			connection.sendBytes(message.binaryData);
 		}
 	});
-
-	sendStatus();
-
-	function sendStatus() {
-		let status = {
-			serial: serialStatus,
-			websocket: "Websocket is up and running",
-		};
-		connection.sendUTF(status);
-	}
 
 	parser.on("data", function (data) {
 		// console.log("From Arduino: ", data);
@@ -146,11 +149,30 @@ wsServer.on("request", function (request) {
 			new Date() + " Peer " + connection.remoteAddress + " disconnected."
 		);
 	});
+
+	function send(data) {
+		connection.sendUTF(data);
+		console.log("Sent to client: ", data);
+	}
+	function changeDummyLed(ledId, state) {
+		console.log("Demo mode, not sending serial");
+
+		index = ledStates.findIndex((led) => led.id === Number(ledId));
+		console.log(index);
+		const newState = Boolean(Number(state));
+		ledStates[index].state = newState;
+		send(JSON.stringify(ledStates));
+
+		return ledId + " " + state;
+	}
+	if (process.env.DEMO === "true") {
+		var serialStatus = "Serial ansluten!";
+	} else {
+		var serialStatus = "Serial ej ansluten";
+	}
+
+	sendStatus();
 });
-
-var debug = true; // Doesn't send serial
-
-var serialStatus = "Serial ej ansluten";
 
 // Read and print data
 const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
@@ -174,9 +196,13 @@ function changeLed(ledId, state) {
 
 // Open errors will be emitted as an error event
 comPort.on("error", function (err) {
-	console.log("Error: ", err.message);
+	if (process.env.DEMO === "true") {
+		serialStatus = "Serial Ansluten! DEMO MODE";
+		return;
+	}
 	if (err.message.includes("File not found")) {
 		serialStatus = "Inte Ansluten: File not found";
 		console.log("SerialStatus: ", serialStatus);
 	}
+	console.log("Error: ", err.message);
 });
