@@ -1,6 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./Dash.css";
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
@@ -12,15 +12,8 @@ function Dash() {
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
 
-	const navigate = useNavigate();
-
-	var cookie = document.cookie;
-	// if (!cookie.includes("loggedIn=true;")) {
-	// 	navigate("/Login");
-	// }
-
 	client.onopen = () => {
-		console.log("WebSocket Client Connected");
+		// console.log("WebSocket Client Connected");
 		setWebsocketStatus("Websocket: ✅");
 	};
 	client.onclose = function () {
@@ -34,12 +27,14 @@ function Dash() {
 		setSerialStatus("Serial: 🟥");
 	};
 	client.onmessage = (message) => {
-		console.log("message.data:", message.data);
-		if (message.data === "Serial Ansluten!") {
+		// console.log("message.data:", message.data);
+		if (message.data.includes("Websocket is up and running")) {
+			setWebsocketStatus("Websocket: ✅");
+		}
+		if (message.data.includes("Serial Ansluten!")) {
 			setSerialStatus("Serial: ✅");
 			return;
-		}
-		if (message.data.includes("Inte Ansluten")) {
+		} else if (message.data.includes("Serial ej ansluten")) {
 			setSerialStatus("Serial: 🟥");
 			return;
 		}
@@ -51,7 +46,7 @@ function Dash() {
 			} catch (error) {
 				console.log(error);
 			}
-			console.log("allLedTest", allLed);
+			// console.log("allLedTest", allLed);
 		}
 	};
 
@@ -65,20 +60,40 @@ function Dash() {
 		);
 	}
 
+	function checkStatus() {
+		// client.send(JSON.stringify({ type: "checkStatus" }));
+		// console.log(client.readyState);
+		if (client.readyState !== W3CWebSocket.OPEN) {
+			console.log("CHECK STATUS", websocketStatus);
+			setSerialStatus("Serial: 🟥");
+			setAllLeds([]);
+			setInterval(function () {
+				// refresh page
+				window.location.reload();
+			}, 5000);
+		}
+	}
+	setInterval(checkStatus, 5000);
+
+	var emptyListMessageTitle;
+	var emptyListMessage;
+	var emptylistClass;
+
 	if (allLed.length === 0) {
-		var emptyListMessageTitle = "Anslut till servern";
-		var emptyListMessage = "Listan med lampor är tom";
-		var emptylistClass = "empty-list";
+		emptyListMessageTitle = "Anslut till servern";
+		emptyListMessage = "Listan med lampor är tom";
+		emptylistClass = "empty-list";
 	}
 	if (serialStatus.includes("🟥")) {
-		var emptyListMessageTitle = "Anslut servern till Arduino";
-		var emptyListMessage = "Serial inte ansluten";
+		emptyListMessageTitle = "Anslut servern till Arduino";
+		emptyListMessage = "Serial inte ansluten";
 	}
 	if (websocketStatus.includes("🟥")) {
-		var emptyListMessageTitle = "Anslut till servern";
-		var emptyListMessage = "Inte ansluten till servern med Websocket";
+		emptyListMessageTitle = "Anslut till servern";
+		emptyListMessage = "Inte ansluten till servern med Websocket";
+		emptylistClass = "empty-list";
 	} else {
-		var emptylistClass = "not-visible";
+		emptylistClass = "not-visible";
 	}
 
 	return (
@@ -112,7 +127,6 @@ function Dash() {
 			<section className="bigSection">
 				<h1>Kontrollpanel</h1>
 				<p>Här kan du styra hela Trossö</p>
-				
 			</section>
 			<section className="ledList">
 				<div className={emptylistClass}>
@@ -123,22 +137,22 @@ function Dash() {
 				{allLed.map((led) => {
 					var classes = " led ";
 					var disabled = false;
+					var state;
+					var toState;
 
 					if (led.state) {
-						var state = "PÅ";
-						var toState = "SLÅ AV";
+						state = "PÅ";
+						toState = "SLÅ AV";
 						classes = classes + "ledOn";
 					} else {
-						var state = "AV";
-						var toState = "SLÅ PÅ";
+						state = "AV";
+						toState = "SLÅ PÅ";
 					}
-					if(serialStatus.includes("🟥")){
+					if (serialStatus.includes("🟥")) {
+						disabled = true;
+					} else if (led.disabled === true) {
 						disabled = true;
 					}
-					else if(led.disabled === true){
-						disabled = true;
-					}
-					
 
 					return (
 						<div className={classes} key={led.id}>
@@ -150,7 +164,7 @@ function Dash() {
 							<button
 								className="ledButton"
 								onClick={(e) => {
-									if(!led.disabled){
+									if (!led.disabled) {
 										controlLed(led);
 									}
 								}}
