@@ -146,8 +146,8 @@ function Dash() {
 					</p>
 				</section>
 				<nav className="dash-nav">
-					<a href="/Trosso2122">Hem</a>
-					<a href="/Trosso2122/dash" id="navSelected">
+					<a href="/">Hem</a>
+					<a href="/dash" id="navSelected">
 						Kontrollpanel
 					</a>
 				</nav>
@@ -183,7 +183,7 @@ function Dash() {
 						disabled = true;
 					}
 
-					if (led.source === "Server") return;
+					if (led.source === "Server") return <></>;
 
 					return (
 						<div className={classes} key={led.id}>
