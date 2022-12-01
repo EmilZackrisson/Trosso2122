@@ -15,21 +15,18 @@ function Dash() {
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
 
-	
 	useEffect(() => {
-		if(Config.demo){
+		if (Config.demo) {
 			// leds.splice(0,1);
-			console.log(leds)
+			console.log(leds);
 			setAllLeds([...leds]);
 
-			setSerialStatus("Serial: 🟨(DEMO)")
-		setWebsocketStatus("Websocket: 🟨(DEMO)")
+			setSerialStatus("Serial: 🟨(DEMO)");
+			setWebsocketStatus("Websocket: 🟨(DEMO)");
 		}
-		
-	  }, []);
+	}, []);
 
-	
-	if(!Config.demo){
+	if (!Config.demo) {
 		client.onopen = () => {
 			// console.log("WebSocket Client Connected");
 			setWebsocketStatus("Websocket: ✅");
@@ -83,18 +80,16 @@ function Dash() {
 		setInterval(checkStatus, 5000);
 	}
 
-
-	
-
 	function controlLed(led) {
 		console.log(led);
-		if(Config.demo){
-			let tempArray = [...allLed]
-			let index = tempArray.findIndex((ledFromArray => ledFromArray.id === led.id))
-			tempArray[index].state = !tempArray[index].state
-			setAllLeds([...tempArray])
-		}
-		else{
+		if (Config.demo) {
+			let tempArray = [...allLed];
+			let index = tempArray.findIndex(
+				(ledFromArray) => ledFromArray.id === led.id
+			);
+			tempArray[index].state = !tempArray[index].state;
+			setAllLeds([...tempArray]);
+		} else {
 			client.send(
 				JSON.stringify({
 					type: "lightControl",
@@ -103,17 +98,15 @@ function Dash() {
 				})
 			);
 		}
-		
 	}
-
 
 	var emptyListMessageTitle;
 	var emptyListMessage;
 	var emptylistClass;
-	
-	if(Config.demo){
+
+	if (Config.demo) {
 		emptylistClass = "not-visible";
-	}else{
+	} else {
 		if (allLed.length === 0) {
 			emptyListMessageTitle = "Anslut till servern";
 			emptyListMessage = "Listan med lampor är tom";
@@ -131,10 +124,6 @@ function Dash() {
 			emptylistClass = "not-visible";
 		}
 	}
-
-
-
-	
 
 	return (
 		<div className="Dash">
@@ -157,8 +146,8 @@ function Dash() {
 					</p>
 				</section>
 				<nav className="dash-nav">
-					<a href="/">Hem</a>
-					<a href="/Dash" id="navSelected">
+					<a href="/Trosso2122">Hem</a>
+					<a href="/Trosso2122/dash" id="navSelected">
 						Kontrollpanel
 					</a>
 				</nav>
@@ -194,7 +183,7 @@ function Dash() {
 						disabled = true;
 					}
 
-					if(led.source === "Server") return
+					if (led.source === "Server") return;
 
 					return (
 						<div className={classes} key={led.id}>
