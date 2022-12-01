@@ -10,7 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<BrowserRouter basename="/Trosso2122">
+		<BrowserRouter basename={window.location.pathname || ""}>
 			<Routes>
 				<Route path="/" exact element={<App />} />
 				<Route path="/dash" element={<Dash />} />
