@@ -2,6 +2,9 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import "./Dash.css";
+import Config from "./Config";
+import leds from "./Leds";
+import { useEffect } from "react";
 
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
 
@@ -12,90 +15,126 @@ function Dash() {
 	const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
 	const [allLed, setAllLeds] = useState([]);
 
-	client.onopen = () => {
-		// console.log("WebSocket Client Connected");
-		setWebsocketStatus("Websocket: ✅");
-	};
-	client.onclose = function () {
-		console.log("echo-protocol Client Closed");
-		setWebsocketStatus("Websocket: 🟥");
-		setSerialStatus("Serial: 🟥");
-	};
-	client.onerror = function () {
-		console.log("Connection Error");
-		setWebsocketStatus("Websocket: 🟥 Error");
-		setSerialStatus("Serial: 🟥");
-	};
-	client.onmessage = (message) => {
-		// console.log("message.data:", message.data);
-		if (message.data.includes("Websocket is up and running")) {
+	
+	useEffect(() => {
+		if(Config.demo){
+			// leds.splice(0,1);
+			console.log(leds)
+			setAllLeds([...leds]);
+
+			setSerialStatus("Serial: 🟨(DEMO)")
+		setWebsocketStatus("Websocket: 🟨(DEMO)")
+		}
+		
+	  }, []);
+
+	
+	if(!Config.demo){
+		client.onopen = () => {
+			// console.log("WebSocket Client Connected");
 			setWebsocketStatus("Websocket: ✅");
-		}
-		if (message.data.includes("Serial ansluten!")) {
-			setSerialStatus("Serial: ✅");
-			return;
-		} else if (message.data.includes("Serial ej ansluten")) {
+		};
+		client.onclose = function () {
+			console.log("echo-protocol Client Closed");
+			setWebsocketStatus("Websocket: 🟥");
 			setSerialStatus("Serial: 🟥");
-			return;
-		}
-		if (message.data.includes("Server")) {
-			try {
-				const serverJson = JSON.parse(message.data);
-				serverJson.splice(0, 1);
-				setAllLeds([...serverJson]);
-			} catch (error) {
-				console.log(error);
+		};
+		client.onerror = function () {
+			console.log("Connection Error");
+			setWebsocketStatus("Websocket: 🟥 Error");
+			setSerialStatus("Serial: 🟥");
+		};
+		client.onmessage = (message) => {
+			// console.log("message.data:", message.data);
+			if (message.data.includes("Websocket is up and running")) {
+				setWebsocketStatus("Websocket: ✅");
 			}
-			// console.log("allLedTest", allLed);
+			if (message.data.includes("Serial ansluten!")) {
+				setSerialStatus("Serial: ✅");
+				return;
+			} else if (message.data.includes("Serial ej ansluten")) {
+				setSerialStatus("Serial: 🟥");
+				return;
+			}
+			if (message.data.includes("Server")) {
+				try {
+					const serverJson = JSON.parse(message.data);
+					serverJson.splice(0, 1);
+					setAllLeds([...serverJson]);
+				} catch (error) {
+					console.log(error);
+				}
+				// console.log("allLedTest", allLed);
+			}
+		};
+		function checkStatus() {
+			// client.send(JSON.stringify({ type: "checkStatus" }));
+			// console.log(client.readyState);
+			if (client.readyState !== W3CWebSocket.OPEN) {
+				console.log("CHECK STATUS", websocketStatus);
+				setSerialStatus("Serial: 🟥");
+				setAllLeds([]);
+				setInterval(function () {
+					// refresh page
+					window.location.reload();
+				}, 5000);
+			}
 		}
-	};
+		setInterval(checkStatus, 5000);
+	}
+
+
+	
 
 	function controlLed(led) {
-		console.log(allLed);
-		client.send(
-			JSON.stringify({
-				type: "lightControl",
-				ledId: led.id,
-				toState: !led.state,
-			})
-		);
+		console.log(led);
+		if(Config.demo){
+			let tempArray = [...allLed]
+			let index = tempArray.findIndex((ledFromArray => ledFromArray.id === led.id))
+			tempArray[index].state = !tempArray[index].state
+			setAllLeds([...tempArray])
+		}
+		else{
+			client.send(
+				JSON.stringify({
+					type: "lightControl",
+					ledId: led.id,
+					toState: !led.state,
+				})
+			);
+		}
+		
 	}
 
-	function checkStatus() {
-		// client.send(JSON.stringify({ type: "checkStatus" }));
-		// console.log(client.readyState);
-		if (client.readyState !== W3CWebSocket.OPEN) {
-			console.log("CHECK STATUS", websocketStatus);
-			setSerialStatus("Serial: 🟥");
-			setAllLeds([]);
-			setInterval(function () {
-				// refresh page
-				window.location.reload();
-			}, 5000);
-		}
-	}
-	setInterval(checkStatus, 5000);
 
 	var emptyListMessageTitle;
 	var emptyListMessage;
 	var emptylistClass;
-
-	if (allLed.length === 0) {
-		emptyListMessageTitle = "Anslut till servern";
-		emptyListMessage = "Listan med lampor är tom";
-		emptylistClass = "empty-list";
-	}
-	if (serialStatus.includes("🟥")) {
-		emptyListMessageTitle = "Anslut servern till Arduino";
-		emptyListMessage = "Serial inte ansluten";
-	}
-	if (websocketStatus.includes("🟥")) {
-		emptyListMessageTitle = "Anslut till servern";
-		emptyListMessage = "Inte ansluten till servern med Websocket";
-		emptylistClass = "empty-list";
-	} else {
+	
+	if(Config.demo){
 		emptylistClass = "not-visible";
+	}else{
+		if (allLed.length === 0) {
+			emptyListMessageTitle = "Anslut till servern";
+			emptyListMessage = "Listan med lampor är tom";
+			emptylistClass = "empty-list";
+		}
+		if (serialStatus.includes("🟥")) {
+			emptyListMessageTitle = "Anslut servern till Arduino";
+			emptyListMessage = "Serial inte ansluten";
+		}
+		if (websocketStatus.includes("🟥")) {
+			emptyListMessageTitle = "Anslut till servern";
+			emptyListMessage = "Inte ansluten till servern med Websocket";
+			emptylistClass = "empty-list";
+		} else {
+			emptylistClass = "not-visible";
+		}
 	}
+
+
+
+	
 
 	return (
 		<div className="Dash">
@@ -149,11 +188,13 @@ function Dash() {
 						state = "AV";
 						toState = "SLÅ PÅ";
 					}
-					if (serialStatus.includes("🟥")) {
+					if (serialStatus.includes("🟥") && !Config.demo) {
 						disabled = true;
 					} else if (led.disabled === true) {
 						disabled = true;
 					}
+
+					if(led.source === "Server") return
 
 					return (
 						<div className={classes} key={led.id}>
