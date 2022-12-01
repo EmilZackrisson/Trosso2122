@@ -10,9 +10,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
+		<BrowserRouter basename="/Trosso2122">
 			<Routes>
-				<Route path="/" element={<App />} />
+				<Route path="/" exact element={<App />} />
 				<Route path="/dash" element={<Dash />} />
 				<Route path="/login" element={<Login />} />
 			</Routes>
