@@ -27,6 +27,7 @@ function Dash() {
 	}, []);
 
 	if (!Config.demo) {
+		console.log("Running in production mode");
 		client.onopen = () => {
 			// console.log("WebSocket Client Connected");
 			setWebsocketStatus("Websocket: ✅");
@@ -42,14 +43,17 @@ function Dash() {
 			setSerialStatus("Serial: 🟥");
 		};
 		client.onmessage = (message) => {
-			// console.log("message.data:", message.data);
+			console.log("message.data:", message.data);
 			if (message.data.includes("Websocket is up and running")) {
+				console.log("Websocket is up and running");
 				setWebsocketStatus("Websocket: ✅");
 			}
-			if (message.data.includes("Serial ansluten!")) {
+			if (message.data.includes('serial":"Serial Ansluten!"')) {
+				console.log("Serial ansluten!");
 				setSerialStatus("Serial: ✅");
 				return;
 			} else if (message.data.includes("Serial ej ansluten")) {
+				console.log("Serial ej ansluten");
 				setSerialStatus("Serial: 🟥");
 				return;
 			}
@@ -147,7 +151,7 @@ function Dash() {
 				</section>
 				<nav className="dash-nav">
 					<a href="/">Hem</a>
-					<a href="/dash" id="navSelected">
+					<a href="/Trosso2122/dash" id="navSelected">
 						Kontrollpanel
 					</a>
 				</nav>

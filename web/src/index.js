@@ -14,7 +14,7 @@ root.render(
 			<Routes>
 				<Route exact path="/" element={<App />} />
 				{/* <Route path="/Trosso2122" element={<App />} /> */}
-				<Route path="/dash" element={<Dash />} />
+				<Route path="dash" element={<Dash />} />
 
 				{/* <Route path="/login" element={<Login />} /> */}
 			</Routes>

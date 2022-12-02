@@ -1,5 +1,5 @@
 const { SerialPort } = require("serialport");
-const comPort = new SerialPort({ path: "COM3", baudRate: 115200 });
+const comPort = new SerialPort({ path: "COM5", baudRate: 115200 });
 const { ReadlineParser } = require("@serialport/parser-readline"); // Library for decoding data from serial
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -26,6 +26,9 @@ if (process.env.DEMO === "true") {
 		"%cDEMO MODE",
 		"color: red; font-size: 20px; font-weight: bold;"
 	);
+	var serialStatus = "Serial ansluten!";
+} else {
+	var serialStatus = "Serial ej ansluten";
 }
 
 wsServer = new WebSocketServer({
@@ -85,7 +88,7 @@ wsServer.on("request", function (request) {
 				console.log("JSON: ", jsonMessage);
 
 				if (jsonMessage.type === "lightControl") {
-					if (!process.env.DEMO === "true") {
+					if (process.env.DEMO === "false") {
 						changeLed(jsonMessage.ledId, jsonMessage.toState);
 					} else {
 						changeDummyLed(jsonMessage.ledId, jsonMessage.toState);
@@ -128,6 +131,7 @@ wsServer.on("request", function (request) {
 		connection.sendUTF(arduinoData);
 		if (data == "Enter data:") {
 			serialStatus = "Serial Ansluten!";
+			console.log("Serial Ansluten!");
 			sendStatus();
 		}
 		if (data.includes("is")) {
@@ -164,11 +168,6 @@ wsServer.on("request", function (request) {
 		send(JSON.stringify(ledStates));
 
 		return ledId + " " + state;
-	}
-	if (process.env.DEMO === "true") {
-		var serialStatus = "Serial ansluten!";
-	} else {
-		var serialStatus = "Serial ej ansluten";
 	}
 
 	sendStatus();
