@@ -1,23 +1,29 @@
 name: Test Server
-'on':
+"on":
   push:
     branches:
       - main
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 jobs:
   test_server:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-      - name: NPM install
-        working-directory: ./server
-        run: npm ci
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./server
+
       - name: Test index.js
         working-directory: ./server
         run: npm run test
