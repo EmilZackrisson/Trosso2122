@@ -14,10 +14,7 @@ h1 {
 
 .clicked {
     fill: white;
-    border-style: solid;
-    border-width: 20px;
-    border-color: red;
-    position: fixed;
     transition: transform .2s;
-    transform: scale(1.2);
+    transition: fill .2s;
+    /* transform: scale(1.2); */
 }

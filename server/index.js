@@ -80,6 +80,7 @@ wsServer.on("request", function (request) {
 	console.log(new Date() + " Connection accepted.");
 
 	connection.on("message", function (message) {
+		// console.log("message", message);
 		if (message.type === "utf8") {
 			console.log("Received Websocket Message: " + message.utf8Data);
 
@@ -87,9 +88,16 @@ wsServer.on("request", function (request) {
 				const jsonMessage = JSON.parse(message.utf8Data);
 				console.log("JSON: ", jsonMessage);
 
-				if (jsonMessage.type === "lightControl") {
+				if (jsonMessage.type === "lightControl" || jsonMessage.type === "zoneLightControl") {
 					if (process.env.DEMO === "false") {
-						changeLed(jsonMessage.ledId, jsonMessage.toState);
+						if(jsonMessage.type === "lightControl"){
+							changeLed(jsonMessage.ledId, jsonMessage.toState);
+						}
+						else if(jsonMessage.type === "zoneLightControl"){
+							changeZoneLed(jsonMessage.ledId, jsonMessage.toState);
+						}
+						
+						
 					} else {
 						changeDummyLed(jsonMessage.ledId, jsonMessage.toState);
 					}
@@ -178,10 +186,12 @@ const parser = comPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 // parser.on('data', console.log)
 
 function changeLed(ledId, state) {
+
 	if (state == true) state = "1";
 	if (state == false) state = "0";
 
 	const message = "set," + ledId + "," + state;
+	console.log("CHANGE LED: ", message);
 
 	comPort.write(Buffer.from(message), function (err) {
 		if (err) {
@@ -192,6 +202,58 @@ function changeLed(ledId, state) {
 		return ledId + " " + state;
 	});
 }
+
+var prevoiusLedId = -1;
+
+function changeZoneLed(ledId, state) {
+	if (state == true) state = "1";
+	if (state == false) state = "0";
+
+	const message = "set," + ledId + "," + state;
+
+	const resetLastLedPromise = new Promise(resetLastLed);
+
+	console.log("Prevoius LED: ", prevoiusLedId);
+
+	if(prevoiusLedId !== -1){
+		resetLastLedPromise.then(function(){
+			comPort.write(Buffer.from(message), function (err) {
+				if (err) {
+					console.log("Error on write: ", err.message);
+					return err.message;
+				}
+				console.log("serial sent: ", message);
+				prevoiusLedId = ledId;
+				return ledId + " " + state;
+			});
+		});
+	}
+
+	console.log("ZONE CHANGE LED: ", message);
+
+	// comPort.write(Buffer.from(message), function (err) {
+	// 	if (err) {
+	// 		console.log("Error on write: ", err.message);
+	// 		return err.message;
+	// 	}
+	// 	console.log("serial sent: ", message);
+	// 	return ledId + " " + state;
+	// });
+
+}
+
+function resetLastLed(){
+	const resetPrevious = "set," + prevoiusLedId + "," + "0";
+	comPort.write(Buffer.from(resetPrevious), function (err) {
+		if (err) {
+			console.log("Error on write: ", err.message);
+			return err.message;
+		}
+		console.log("Reset serial sent: ", resetPrevious);
+		return prevoiusLedId + " " + 0;
+	});
+}
+
 
 // Open errors will be emitted as an error event
 comPort.on("error", function (err) {

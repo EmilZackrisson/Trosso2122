@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "serve": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,8 @@
     "node-json-db": "^2.1.0",
     "serialport": "^10.4.0",
     "websocket": "^1.0.34"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
