@@ -1,5 +1,5 @@
 const Config = {
-	demo: false,
+    demo: false,
 };
 
 export default Config;
