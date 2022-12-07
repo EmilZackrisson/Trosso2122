@@ -4,19 +4,21 @@ import "./index.css";
 import App from "./App";
 import Dash from "./Dash";
 // import Login from "./Login";
+import Karta from "./Karta";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<BrowserRouter basename="/Trosso2122">
+		<BrowserRouter>
 			<Routes>
 				<Route exact path="/" element={<App />} />
 				{/* <Route path="/Trosso2122" element={<App />} /> */}
-				<Route path="dash" element={<Dash />} />
+				<Route path="/dash" element={<Dash />} />
+				<Route path="/karta" element={<Karta/>} />
 
-				{/* <Route path="/login" element={<Login />} /> */}
+				
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

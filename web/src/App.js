@@ -1,3 +1,4 @@
+import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -10,7 +11,7 @@ function App() {
 					<a href="/" id="navSelected">
 						Hem
 					</a>
-					<a href="/Trosso2122/dash">Kontrollpanel</a>
+					<a href="/dash">Kontrollpanel</a>
 				</section>
 			</nav>
 			<header className="App-header">
@@ -18,9 +19,14 @@ function App() {
 				<h1>Trossö 2122</h1>
 				<a
 					className="App-link"
-					href="/Trosso2122/dash"
+					href="/dash"
 					rel="noopener noreferrer">
 					Kontrollpanel
+				</a>
+				<a href="/karta"
+				className="App-link"
+			>
+					Karta
 				</a>
 			</header>
 		</div>

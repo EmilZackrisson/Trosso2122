@@ -1,0 +1,23 @@
+.header-map {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+}
+
+h1 {
+    color: white;
+}
+
+.kartaSvg {
+    max-width: 60%;
+}
+
+.clicked {
+    fill: white;
+    border-style: solid;
+    border-width: 20px;
+    border-color: red;
+    position: fixed;
+    transition: transform .2s;
+    transform: scale(1.2);
+}
