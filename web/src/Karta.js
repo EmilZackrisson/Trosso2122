@@ -1,9 +1,8 @@
-
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
 
 import "./Karta.css";
-import "../public/Karta.svg";
+// import "./karta.svg";
 const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
 
 function Karta() {
@@ -15,24 +14,28 @@ function Karta() {
         const serverJson = JSON.parse(message.data);
         serverJson.splice(0, 1);
         setAllLeds([...serverJson]);
-        
       } catch (error) {
         console.log(error);
       }
-      console.log("allLedTest", allLed)
+      console.log("allLedTest", allLed);
     }
   };
 
   function turnOnZone(zone) {
     for (let index = 0; index < allLed.length; index++) {
       const element = allLed[index];
-      console.log(index, element)
+      console.log(index, element);
       if (element.name === zone) {
-        client.send(JSON.stringify({ type: "zoneLightControl", ledId: element.id, toState: true }));
+        client.send(
+          JSON.stringify({
+            type: "zoneLightControl",
+            ledId: element.id,
+            toState: true,
+          })
+        );
       }
     }
   }
-
 
   function zoneClick(data) {
     console.log(data.target.parentElement.id);
@@ -43,15 +46,15 @@ function Karta() {
     }
 
     if (clickedArea.id !== "root") {
-      Array.from(document.querySelectorAll(".clicked")).forEach(function(el) {
+      Array.from(document.querySelectorAll(".clicked")).forEach(function (el) {
         el.classList.remove("clicked");
       });
       clickedArea.classList.add("clicked");
-      console.log(allLed)
+      console.log(allLed);
       turnOnZone(clickedArea.id);
       // client.send(JSON.stringify({ zone: clickedArea.id, state: true }));
     } else if (clickedArea.id === "root") {
-      Array.from(document.querySelectorAll(".clicked")).forEach(function(el) {
+      Array.from(document.querySelectorAll(".clicked")).forEach(function (el) {
         el.classList.remove("clicked");
       });
     }
