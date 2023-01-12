@@ -1,11 +1,12 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+// import "./App.css";
+import Nav from "./Nav";
 
 function App() {
-	return (
-		<div className="App">
-			<nav>
+  return (
+    <div className="App bg-main">
+      {/* <nav>
 				<h1>Trossö 2122</h1>
 				<section className="nav-links">
 					<a href="/" id="navSelected">
@@ -13,24 +14,13 @@ function App() {
 					</a>
 					<a href="/dash">Kontrollpanel</a>
 				</section>
-			</nav>
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<h1>Trossö 2122</h1>
-				<a
-					className="App-link"
-					href="/dash"
-					rel="noopener noreferrer">
-					Kontrollpanel
-				</a>
-				<a href="/karta"
-				className="App-link"
-			>
-					Karta
-				</a>
-			</header>
-		</div>
-	);
+			</nav> */}
+      <Nav activePage="home" />
+      <header className="grid h-50">
+        <h1>Trossö 2122</h1>
+      </header>
+    </div>
+  );
 }
 
 export default App;

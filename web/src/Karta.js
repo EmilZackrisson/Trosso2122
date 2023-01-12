@@ -1,5 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
+import Nav from "./Nav";
 
 import "./Karta.css";
 // import "./karta.svg";
@@ -62,9 +63,7 @@ function Karta() {
 
   return (
     <>
-      <div className="header-map">
-        <h1>Karta</h1>
-      </div>
+      <Nav activePage="map" />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="363.98 361.56 766.52 858.67"
