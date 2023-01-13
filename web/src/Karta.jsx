@@ -37,6 +37,11 @@ function Karta() {
   function zoneClick(data) {
     console.log(data.target.parentElement.id);
     let clickedArea = document.getElementById(data.target.parentElement.id);
+    if(clickedArea === null){
+      console.log("clickedArea is null");
+      clickedArea.classList.remove("clicked");
+      return;
+    };
     if (clickedArea.classList.contains("clicked")) {
       clickedArea.classList.remove("clicked");
       return;
@@ -59,6 +64,7 @@ function Karta() {
 
   return (
     <>
+    <div className="container">
       <div className="header-map">
         <h1>Karta</h1>
       </div>
@@ -311,6 +317,7 @@ function Karta() {
           />
         </g>
       </svg>
+      </div>
     </>
   );
 }
