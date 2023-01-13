@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import client from "./config/websocketConfig"
 
-import "./Karta.css";
+// import "./Karta.css";
 // import "./karta.svg";
 
 function Karta() {

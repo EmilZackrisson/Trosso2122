@@ -1,14 +1,8 @@
 import client from "./config/websocketConfig"
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-import "./Dash.css";
 import Config from "./Config";
 import leds from "./Leds";
 import { useEffect } from "react";
-
-
-
-// ✅🟥
 
 function Dash() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
@@ -81,7 +75,7 @@ function Dash() {
         }, 5000);
       }
     }
-    setInterval(checkStatus, 5000);
+    // setInterval(checkStatus, 5000);
   }
 
   function controlLed(led) {
@@ -131,11 +125,11 @@ function Dash() {
 
   return (
     <div className="Dash">
-      <section className="bigSection">
-        <h1>Kontrollpanel</h1>
+      <section className="grid h-50 p-24 text-center bg-accent text-white">
+        <h1 className="text-4xl">Kontrollpanel</h1>
         <p>Här kan du styra hela Trossö</p>
       </section>
-      <section className="ledList">
+      <section className="grid bg-white grid-cols-3 gap-3 p-5 ">
         <div className={emptylistClass}>
           <h1>{emptyListMessageTitle}</h1>
           <p>{emptyListMessage}</p>
