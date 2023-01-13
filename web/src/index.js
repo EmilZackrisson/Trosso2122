@@ -11,7 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <div className="bg-black">
+  <div className="min-h-screen bg-white dark:bg-gray-900 font-poppins">
     <React.StrictMode>
       <BrowserRouter>
         <Nav />

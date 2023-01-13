@@ -1,8 +1,10 @@
-import client from "./config/websocketConfig"
+import client from "./config/websocketConfig";
 import React, { useState } from "react";
 import Config from "./Config";
 import leds from "./Leds";
 import { useEffect } from "react";
+import LedCard from "./components/LedCard";
+import Footer from "./components/Footer";
 
 function Dash() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
@@ -103,12 +105,12 @@ function Dash() {
   var emptylistClass;
 
   if (Config.demo) {
-    emptylistClass = "not-visible";
+    emptylistClass = "hidden";
   } else {
     if (allLed.length === 0) {
       emptyListMessageTitle = "Anslut till servern";
       emptyListMessage = "Listan med lampor är tom";
-      emptylistClass = "empty-list";
+      emptylistClass = "hidden";
     }
     if (serialStatus.includes("🟥")) {
       emptyListMessageTitle = "Anslut servern till Arduino";
@@ -117,69 +119,40 @@ function Dash() {
     if (websocketStatus.includes("🟥")) {
       emptyListMessageTitle = "Anslut till servern";
       emptyListMessage = "Inte ansluten till servern med Websocket";
-      emptylistClass = "empty-list";
+      emptylistClass = "hidden";
     } else {
-      emptylistClass = "not-visible";
+      emptylistClass = "hidden";
     }
   }
 
   return (
-    <div className="Dash">
-      <section className="grid h-50 p-24 text-center bg-accent text-white">
-        <h1 className="text-4xl">Kontrollpanel</h1>
-        <p>Här kan du styra hela Trossö</p>
-      </section>
-      <section className="grid bg-white grid-cols-3 gap-3 p-5 ">
-        <div className={emptylistClass}>
-          <h1>{emptyListMessageTitle}</h1>
-          <p>{emptyListMessage}</p>
-        </div>
+    <>
+      <div className="Dash text-white">
+        <section className="grid h-50 p-24 text-center bg-accent text-white">
+          <h1 className="text-4xl">Kontrollpanel</h1>
+          <p>Här kan du styra hela Trossö</p>
+        </section>
+        <section className="grid grid-flow-row md:grid-cols-3 gap-3 p-5 ">
+          <div className={emptylistClass}>
+            <h1>{emptyListMessageTitle}</h1>
+            <p>{emptyListMessage}</p>
+          </div>
 
-        {allLed.map((led) => {
-          var classes = " led ";
-          var disabled = false;
-          var state;
-          var toState;
-
-          if (led.state) {
-            state = "PÅ";
-            toState = "SLÅ AV";
-            classes = classes + "ledOn";
-          } else {
-            state = "AV";
-            toState = "SLÅ PÅ";
-          }
-          if (serialStatus.includes("🟥") && !Config.demo) {
-            disabled = true;
-          } else if (led.disabled === true) {
-            disabled = true;
-          }
-
-          if (led.source === "Server") return <></>;
-
-          return (
-            <div className={classes} key={led.id}>
-              <p>Namn: {led.name}</p>
-              <p>Tillstånd: {state}</p>
-              <p>Pin: {led.id}</p>
-              <p>{led.info}</p>
-
-              <button
-                className="ledButton"
-                onClick={(e) => {
-                  if (!led.disabled) {
-                    controlLed(led);
-                  }
-                }}
-                disabled={disabled}
-              >
-                {toState}
-              </button>
-            </div>
-          );
-        })}
-      </section>
-    </div>
+          {allLed.map((led) => {
+            return (
+              <LedCard
+                key={led.id}
+                led={led}
+                serialStatus={serialStatus}
+                Config={Config}
+                controlLed={controlLed}
+              />
+            );
+          })}
+        </section>
+      </div>
+      <Footer serialStatus={serialStatus} websocketStatus={websocketStatus} />
+    </>
   );
 }
 
