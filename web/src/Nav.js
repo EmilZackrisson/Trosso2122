@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Nav(props) {
   //   if (props) {
@@ -22,15 +23,11 @@ function Nav(props) {
         Trossö 2122
       </h1>
       <li className="flex mx-4 justify-self-end list-none text-white gap-3 ">
-        <a href="/" id="home" className="hover:underline">
-          Hem
-        </a>
-        <a href="/dash" id="dash" className="hover:underline">
-          Kontrollpanel
-        </a>
-        <a href="/karta" id="map" className="hover:underline">
-          Karta
-        </a>
+        
+        <Link to="/" id="home" className="hover:underline">Hem</Link>
+        <Link to="/dash" id="dash" className="hover:underline">Kontrollpanel</Link>
+        <Link to="/karta" id="map" className="hover:underline">Karta</Link>
+        
       </li>
     </nav>
   );

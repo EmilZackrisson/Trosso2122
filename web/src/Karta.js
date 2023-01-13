@@ -1,10 +1,8 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import React, { useState } from "react";
-import Nav from "./Nav";
+import client from "./config/websocketConfig"
 
 import "./Karta.css";
 // import "./karta.svg";
-const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
 
 function Karta() {
   const [allLed, setAllLeds] = useState([]);
@@ -68,10 +66,6 @@ function Karta() {
 
   return (
     <>
-
-
-
-      <Nav activePage="map" />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="363.98 361.56 766.52 858.67"
