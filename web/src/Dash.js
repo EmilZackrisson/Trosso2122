@@ -1,13 +1,12 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import client from "./config/websocketConfig"
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./Dash.css";
 import Config from "./Config";
 import leds from "./Leds";
 import { useEffect } from "react";
-import Nav from "./Nav";
 
-const client = new W3CWebSocket("ws://127.0.0.1:8000", "echo-protocol");
+
 
 // ✅🟥
 
@@ -72,7 +71,7 @@ function Dash() {
     function checkStatus() {
       // client.send(JSON.stringify({ type: "checkStatus" }));
       // console.log(client.readyState);
-      if (client.readyState !== W3CWebSocket.OPEN) {
+      if (client.readyState !== client.W3CWebSocket.OPEN) {
         console.log("CHECK STATUS", websocketStatus);
         setSerialStatus("Serial: 🟥");
         setAllLeds([]);
@@ -132,8 +131,6 @@ function Dash() {
 
   return (
     <div className="Dash">
-      <Nav activePage="dash" />
-
       <section className="bigSection">
         <h1>Kontrollpanel</h1>
         <p>Här kan du styra hela Trossö</p>
