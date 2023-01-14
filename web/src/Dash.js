@@ -1,6 +1,6 @@
-import client from "./config/websocketConfig";
 import React, { useState } from "react";
-import Config from "./Config";
+import client from "./config/websocketConfig";
+import Config from "./config/Config";
 import leds from "./Leds";
 import { useEffect } from "react";
 import LedCard from "./components/LedCard";
@@ -10,6 +10,8 @@ function Dash() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
   const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
   const [allLed, setAllLeds] = useState([]);
+
+  console.log(Config.demo, Config.serverIp);
 
   useEffect(() => {
     if (Config.demo) {
