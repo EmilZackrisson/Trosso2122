@@ -64,7 +64,7 @@ function Karta() {
   }
 
   return (
-    <>
+    <div className="karta grid justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="363.98 361.56 766.52 858.67"
@@ -314,7 +314,7 @@ function Karta() {
           />
         </g>
       </svg>
-    </>
+    </div>
   );
 }
 

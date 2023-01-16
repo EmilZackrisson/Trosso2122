@@ -1,36 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 .material-icons {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-  /* Support for IE. */
-  font-feature-settings: "liga";
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: "liga";
 }
+
 @layer components {
-  .btn-primary {
-    @apply bg-blue-800 dark:bg-blue-600 text-white font-medium hover:font-semibold py-2 px-4 rounded text-center w-36 dark:hover:bg-blue-800 hover:bg-blue-900 h-10;
-  }
-  .clicked {
-    @apply fill-white;
-  }
+    .btn-primary {
+        @apply bg-blue-800 dark:bg-blue-600 text-white font-medium hover:font-semibold py-2 px-4 rounded text-center w-36 dark:hover:bg-blue-800 hover:bg-blue-900 h-10;
+    }
+    .clicked {
+        @apply fill-white;
+    }
+}
+
+.card-shadow {
+    @apply shadow-2xl shadow-aqua;
+}
+
+g{
+    fill: green;
 }

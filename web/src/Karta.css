@@ -18,3 +18,7 @@ h1 {
     transition: fill .2s;
     /* transform: scale(1.2); */
 }
+
+g {
+    fill: aqua;
+}

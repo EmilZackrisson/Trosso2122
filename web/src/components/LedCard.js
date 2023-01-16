@@ -7,7 +7,7 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
   if (led.state) {
     state = "PÅ";
     toState = "SLÅ AV";
-    classes = classes + "shadow-2xl shadow-white";
+    classes = classes + " card-shadow ";
   } else {
     state = "AV";
     toState = "SLÅ PÅ";
@@ -20,7 +20,7 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
     toState = toState;
   }
 
-  if (led.source === "Server") return <></>;
+  if (led.source === "Server") return <> </>;
 
   return (
     <div
@@ -29,11 +29,8 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
       }
       key={led.id}
     >
-      <p>Namn: {led.name}</p>
-      <p>Tillstånd: {state}</p>
-      <p>Pin: {led.id}</p>
-      <p>{led.info}</p>
-
+      <p> Namn: {led.name} </p> <p> Tillstånd: {state} </p>{" "}
+      <p> Pin: {led.id} </p> <p> {led.info} </p>
       <button
         className="btn p-2 bg-aqua rounded-lg disabled:bg-red-700"
         onClick={(e) => {
@@ -43,8 +40,8 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
         }}
         disabled={disabled}
       >
-        {toState}
-      </button>
+        {toState}{" "}
+      </button>{" "}
     </div>
   );
 };
