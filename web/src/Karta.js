@@ -37,10 +37,12 @@ function Karta() {
   }
 
   function zoneClick(data) {
-    console.log(data.target.parentElement.id);
     let clickedArea = document.getElementById(data.target.parentElement.id);
+    console.log("Klickad area:", data.target.parentElement.id);
+    
     if (clickedArea === null) {
       console.log("clickedArea is null");
+      Array.from(document.querySelectorAll('.clicked')).forEach((el) => el.classList.remove('clicked'));
       return;
     }
     if (clickedArea.classList.contains("clicked")) {
@@ -53,7 +55,7 @@ function Karta() {
         el.classList.remove("clicked");
       });
       clickedArea.classList.add("clicked");
-      console.log(allLed);
+      // console.log(allLed);
       turnOnZone(clickedArea.id);
       // client.send(JSON.stringify({ zone: clickedArea.id, state: true }));
     } else if (clickedArea.id === "root") {
@@ -64,7 +66,7 @@ function Karta() {
   }
 
   return (
-    <div className="karta grid justify-center">
+    <div className="karta flex justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="363.98 361.56 766.52 858.67"
