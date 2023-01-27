@@ -1,11 +1,12 @@
 String action, pin, state;
+int pins[3] = {2, 3, 4}; 
+byte pinCount = sizeof(pins) / sizeof(pin[0]);
 
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  int pins[3] = {2, 3, 4}; 
-  for(int i=0; i<pins.length(); i++){
+  for(byte i = 0; i < pinCount; i++){
     pinMode(pins[i], OUTPUT);
   }
   pinMode(3, OUTPUT);
@@ -24,6 +25,9 @@ void loop() {
     if(action == "set"){
       Serial.println(changeLed(pin, state));
       Serial.println("Enter data:");
+    }
+    if(action == "setZone"){
+      Serial.println(changeZone(pin));
     }
   }
 }
@@ -45,6 +49,17 @@ String changeLed(String pin, String state){
   else{
     return "Wrong format, nothing changed";
   }
+}
 
-  
+String changeZone(String pin){
+  int pinInt = pin.toInt();
+  allOff();
+  digitalWrite(pinInt, 1);
+  return String(pinInt) + " is " + "true";
+}
+
+void allOff(){
+  for(byte i = 0; i < pinCount; i++){
+    changeLed(String(i), String(0));
+  }
 }
