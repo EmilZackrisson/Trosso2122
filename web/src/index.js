@@ -3,8 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import Dash from "./Dash";
+import Kontakt from "./Kontakt";
 // import Login from "./Login";
 import Karta from "./Karta";
+import Info from "./Info";
 import Nav from "./components/Nav";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,12 +18,14 @@ root.render(
       <BrowserRouter>
         <Nav />
         <Routes>
-          <Route exact path="/" element={<App />} />{" "}
-          <Route path="/dash" element={<Dash />} />{" "}
-          <Route path="/karta" element={<Karta />} />{" "}
-        </Routes>{" "}
-      </BrowserRouter>{" "}
-    </React.StrictMode>{" "}
+          <Route exact path="/" element={<App />} />
+          <Route path="/dash" element={<Dash />} />
+          <Route path="/karta" element={<Karta />} />
+          <Route path="/kontakt" element={<Kontakt />} />
+          <Route path="/info" element={<Info />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
   </div>
 );
 

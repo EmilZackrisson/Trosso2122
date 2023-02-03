@@ -18,6 +18,12 @@ function Nav() {
         <Link to="/karta" id="map" className="hover:underline">
           <i className="material-icons"> map </i>
         </Link>
+        <Link to="/kontakt" id="contact" className="hover:underline">
+          <i className="material-icons"> contact_support </i>
+        </Link>
+        <Link to="/info" id="info" className="hover:underline">
+          <i className="material-icons"> info </i>
+        </Link>
       </li>
     </nav>
   );

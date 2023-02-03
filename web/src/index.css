@@ -27,7 +27,7 @@
 
 @layer components {
     .btn-primary {
-        @apply bg-blue-800 dark:bg-blue-600 text-white font-medium hover:font-semibold py-2 px-4 rounded text-center w-36 dark:hover:bg-blue-800 hover:bg-blue-900 h-10;
+        @apply bg-blue-800 dark: bg-blue-600 text-white font-medium hover: font-semibold py-2 px-4 rounded text-center w-36 dark: hover: bg-blue-800 hover: bg-blue-900 h-10;
     }
     .clicked {
         @apply fill-white !important;
@@ -42,10 +42,10 @@ svg {
     @apply m-3 max-w-screen-lg;
 }
 
-g{
+g {
     fill: hotpink;
 }
 
-#Varv_och_Marinbas{
+#Varv_och_Marinbas {
     fill: gray;
 }
