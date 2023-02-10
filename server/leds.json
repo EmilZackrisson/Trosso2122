@@ -13,7 +13,7 @@
         "state": false,
         "name": "Grön",
         "info": "Denna LED är grön och styrs via transistor",
-        "disabled": true
+        "disabled": false
     },
     {
         "id": 2,

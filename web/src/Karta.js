@@ -63,6 +63,11 @@ function Karta() {
 
   return (
     <div className="karta flex justify-center">
+      <div className="bubble">
+        <div className="bubbleText">
+          <h1>Hej</h1>
+          </div>
+      </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="363.98 361.56 766.52 858.67"
