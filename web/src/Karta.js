@@ -5,6 +5,10 @@ import sadCat from "./sadCat.jpg";
 
 function Karta() {
   const [allLed, setAllLeds] = useState([]);
+  const [selArea, setSelArea] = useState({
+    name: "Välj ett område",
+    description: "Klicka på ett område på kartan för att se mer information",
+  });
 
   client.onmessage = (message) => {
     if (message.data.includes("Server")) {
@@ -33,40 +37,70 @@ function Karta() {
     );
   }
 
-  function turnOffZone(zone) {
-    let zoneId = leds.filter((led) => led.name === zone)[0].id;
+  function getZoneInfo(zoneName) { 
+    let zone = leds.filter((led) => led.name === zoneName)[0];
+    return zone;
+  }
 
-    client.send(
-      JSON.stringify({
-        type: "lightControl",
-        ledId: zoneId,
-        toState: false,
-      })
-    );
+  function showBubble(x, y, zoneName) {
+    // Set bubble text
+    if (zoneName !== undefined) {
+      let zone = getZoneInfo(zoneName);
+      console.log("zone", zone);
+      setSelArea({
+        name: zone.name,
+        description: zone.info,
+      });
+    }
+
+    // Place bubble
+    let bubble = document.querySelector(".bubble");
+    bubble.style.left = x + "px";
+    bubble.style.top = y + "px";
+    bubble.style.visibility = "visible";
+  }
+
+  function hideBubble() {
+    let bubble = document.querySelector(".bubble");
+    bubble.style.visibility = "hidden";
+    console.log("bubble hidden");
   }
 
   function zoneClick(data) {
     let clickedArea = document.getElementById(data.target.parentElement.id);
     console.log("Klickad area:", data.target.parentElement.id);
 
-    if (clickedArea === null) {
+    
+    // Clicked outside of map
+    if(!clickedArea) {
       console.log("clickedArea is null");
       Array.from(document.querySelectorAll(".clicked")).forEach((el) =>
         el.classList.remove("clicked")
       );
-      return;
-    }
-    if (clickedArea.classList.contains("clicked")) {
-      clickedArea.classList.remove("clicked");
-      turnOffZone(clickedArea.id);
+      hideBubble();
       return;
     }
 
+    //Get mouse position
+    let x = data.clientX;
+    let y = data.clientY;
+    showBubble(x, y, clickedArea.id);
+
+    // If clicked area is already clicked, remove clicked class and hide bubble
+    if (clickedArea.classList.contains("clicked")) {
+      clickedArea.classList.remove("clicked");
+      hideBubble();
+      return;
+    }
+
+    // If clicked area is not clicked, remove clicked class from all areas and add clicked class to clicked area
     if (clickedArea.id !== "root") {
       Array.from(document.querySelectorAll(".clicked")).forEach(function (el) {
         el.classList.remove("clicked");
       });
+      
       clickedArea.classList.add("clicked");
+      showBubble(x, y, clickedArea.id);
       turnOnZone(clickedArea.id);
     } else if (clickedArea.id === "root") {
       Array.from(document.querySelectorAll(".clicked")).forEach(function (el) {
@@ -75,6 +109,7 @@ function Karta() {
     }
   }
 
+  // If mobile, show sad cat
   if (/Android|iPhone/i.test(navigator.userAgent)) {
     return (
       <div className="karta justify-center">
@@ -89,7 +124,8 @@ function Karta() {
       <div className="karta flex justify-center">
         <div className="bubble">
           <div className="bubbleText">
-            <h1>Hej</h1>
+            <h1 id="selAreaName">{selArea.name}</h1>
+            <p id="selAreaDesc">{selArea.description}</p>
           </div>
         </div>
         <svg

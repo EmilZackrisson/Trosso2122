@@ -25,7 +25,7 @@ var leds = [{
     {
         id: 4,
         state: false,
-        name: "Lokstllarna",
+        name: "Lokstallarna",
         info: "Lokstallarna",
         disabled: false,
     },
