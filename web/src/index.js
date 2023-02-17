@@ -8,6 +8,7 @@ import Kontakt from "./Kontakt";
 import Karta from "./Karta";
 import Info from "./Info";
 import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -24,6 +25,7 @@ root.render(
           <Route path="/kontakt" element={<Kontakt />} />
           <Route path="/info" element={<Info />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </React.StrictMode>
   </div>

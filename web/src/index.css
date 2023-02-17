@@ -81,6 +81,12 @@
         width: max-content;
         right: 100px;
         top: 100px;
+        -webkit-user-select: none;
+        /* Safari */
+        -ms-user-select: none;
+        /* IE 10 and IE 11 */
+        user-select: none;
+        /* Standard syntax */
     }
     #selAreaName {
         font-size: 14px;
