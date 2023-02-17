@@ -25,7 +25,7 @@ var leds = [{
     {
         id: 4,
         state: false,
-        name: "Lokstllarna",
+        name: "Lokstallarna",
         info: "Lokstallarna",
         disabled: false,
     },
@@ -61,7 +61,7 @@ var leds = [{
         id: 9,
         state: false,
         name: "Simhall",
-        info: "Simhall",
+        info: "Karlskrona Simhall",
         disabled: false,
     },
     {
@@ -82,7 +82,7 @@ var leds = [{
         id: 12,
         state: false,
         name: "Skolor",
-        info: "Skolor",
+        info: "Ehrensvärdska, af Chapman, Törnströmska",
         disabled: false,
     },
     {
@@ -180,7 +180,7 @@ var leds = [{
         id: 27,
         state: false,
         name: "Stortorget",
-        info: "Stortorget",
+        info: "Fredrikskyrkan m.m.",
         disabled: false,
     },
     {
@@ -201,7 +201,7 @@ var leds = [{
         id: 30,
         state: false,
         name: "Museum",
-        info: "Museum",
+        info: "Blekinge Museum",
         disabled: false,
     },
     {
@@ -236,8 +236,15 @@ var leds = [{
         id: 35,
         state: false,
         name: "Varv_och_Marinbas",
-        info: "Varv och Marinbas",
+        info: "Varv och Marinbas är tomt",
         disabled: true,
+    },
+    {
+        id: 36,
+        state: false,
+        name: "Bröjkholmen",
+        info: "Bröjkholmen",
+        disabled: false,
     }
 ];
 
