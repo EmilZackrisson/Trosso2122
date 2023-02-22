@@ -11,7 +11,7 @@ void setup() {
   }
   pinMode(3, OUTPUT);
   Serial.setTimeout(200);
-  Serial.println("Enter data:");
+  Serial.println("R");
 }
 
 void loop() {
@@ -24,7 +24,6 @@ void loop() {
 
     if(action == "set"){
       Serial.println(changeLed(pin, state));
-      Serial.println("Enter data:");
     }
     if(action == "setZone"){
       Serial.println(changeZone(pin));

@@ -27,12 +27,14 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
       className={
         classes + "led bg-accent text-white p-5 m-5 rounded-lg grid grid-rows-5"
       }
+      id={led.id}
       key={led.id}
     >
       <p> Namn: {led.name} </p> <p> Tillstånd: {state} </p>{" "}
       <p> Pin: {led.id} </p> <p> {led.info} </p>
       <button
         className="btn p-2 bg-aqua rounded-lg disabled:bg-red-700"
+        id={led.id}
         onClick={(e) => {
           if (!led.disabled) {
             controlLed(led);
