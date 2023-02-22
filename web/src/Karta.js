@@ -1,41 +1,88 @@
 import React, { useState } from "react";
-import client from "./config/websocketConfig";
 import leds from "./Leds";
 import sadCat from "./sadCat.jpg";
 import Footer from "./components/Footer";
 
 function Karta() {
+  const [serialStatus, setSerialStatus] = useState("Serial: 🔴");
   const [allLed, setAllLeds] = useState([]);
   const [selArea, setSelArea] = useState({
     name: "Välj ett område",
     description: "Klicka på ett område på kartan för att se mer information",
   });
 
-  client.onmessage = (message) => {
-    if (message.data.includes("Server")) {
-      try {
-        const serverJson = JSON.parse(message.data);
-        serverJson.splice(0, 1);
-        setAllLeds([...serverJson]);
-      } catch (error) {
-        console.log(error);
-      }
-      console.log("allLedTest", allLed);
-    }
-  };
+  // Serial
+  const filters = [{ usbVendorId: 6790, usbProductId: 29987 }];
+  var lineBuffer = "";
 
-  function turnOnZone(zone) {
+  function findZoneId(zone) {
     console.log("turnOnZone", zone);
 
     let zoneId = leds.filter((led) => led.name === zone)[0].id;
     console.log("zoneid", zoneId);
+    return zoneId;
+  }
 
-    client.send(
-      JSON.stringify({
-        type: "zoneLightControl",
-        ledId: zoneId,
-      })
-    );
+  async function serial() {
+    const port = await navigator.serial.requestPort({ filters });
+    await port.open({ baudRate: 115200 });
+    setSerialStatus("Serial: 🟢");
+    console.log("Serial connected");
+    document.getElementById("serialInBubble").style.display = "none";
+
+    const reader = port.readable.getReader();
+
+    let value = "";
+
+    window.addEventListener("click", (event) => {
+      console.log(event);
+      const zoneName = event.target.parentElement.id;
+      const zoneId = findZoneId(zoneName);
+      const zoneClasses = event.target.parentElement.className.animVal;
+
+      if (zoneClasses.includes("clicked")) {
+        value = "setZone," + zoneId + ",1";
+      } else {
+        value = "setZone," + zoneId + ",0";
+      }
+
+      if (zoneId === "") {
+        value = "setZone,13,0";
+      }
+
+      console.log(value);
+      if (port && port.writable) {
+        // Convert the string to an ArrayBuffer.
+        var enc = new TextEncoder();
+
+        const bytes = new Uint8Array(enc.encode(value));
+
+        const writer = port.writable.getWriter();
+
+        writer.write(bytes);
+        writer.releaseLock();
+      }
+    });
+
+    // Listen to data coming from the serial device.
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        // Allow the serial port to be closed later.
+        reader.releaseLock();
+        break;
+      }
+      // value is a Uint8Array.
+      if (value.length === 1) {
+        lineBuffer += String.fromCharCode(value[0]);
+      } else {
+        lineBuffer += new TextDecoder().decode(value);
+        let text = lineBuffer;
+        lineBuffer = "";
+        console.log("Uint8Array: ", value);
+        console.log("TextDecoder: ", text);
+      }
+    }
   }
 
   function getZoneInfo(zoneName) {
@@ -101,7 +148,7 @@ function Karta() {
 
       clickedArea.classList.add("clicked");
       showBubble(x, y, clickedArea.id);
-      turnOnZone(clickedArea.id);
+      findZoneId(clickedArea.id);
     } else if (clickedArea.id === "root") {
       Array.from(document.querySelectorAll(".clicked")).forEach(function (el) {
         el.classList.remove("clicked");
@@ -121,11 +168,21 @@ function Karta() {
     );
   } else {
     return (
-      <div className="karta flex justify-center">
+      <div className="karta flex flex-col justify-center">
         <div className="bubble">
           <div className="bubbleText">
             <h1 id="selAreaName">{selArea.name}</h1>
             <p id="selAreaDesc">{selArea.description}</p>
+            <div id="serialInBubble">
+              <button
+                id="connectSerialBtn"
+                className="btn btn-primary"
+                onClick={serial}
+              >
+                Anslut serial
+              </button>
+              <p>{serialStatus}</p>
+            </div>
           </div>
         </div>
 
@@ -239,12 +296,10 @@ function Karta() {
             <path d="m682.42,628.68c-30.21-1.52-170.41-17.58-190.9-15.1-4.34,2.53-12.23,52.95-34,46.6-23.93-6.1-12.39-15.05-20.6-17.8,0,0-62,1.6-121.5-3.1-5.83,26.22-11.63,84.44,27,83.2,84.97,6.68,217.42,34.14,311.4,9.11.71-8.91-12.01-54.98,22.89-72.51.27-5.32,16.28-27.01,5.71-30.4Zm-374.6,5.3c-73.64,9.86-30.04-60.17-51.1-104.3,6.4-.32-59.51-97.48-103.6-78.79-16.19,11.49-30.37,26.76-52.6,24.59-32.99-.09-59.99-18.25-84.7-36.1-22.06,13.45,28.47,103.66-7.9,88.1-18.05,8.76-3.12,52.37,23.39,53.99,28.11-3.49,36.11,17.68,38.6,43.81,9.31,32.62,24.32-34.44,38-14.7,5.4,24.5,7.9,13.7,7.9,13.7l17.8-65.9c92.73.54,41.8,33.04,48.8,87.5,16.8,5.5,8.9,19.5,26.7,20,16.1.4,15.3,5.9,14.8,7.4-.79,10.68-5.98,149.55,5,173,9.9,20.3,33.9,2.4,40.2-2.8,8.19-1.63,14.56,3.51,32.3-12.2,35.76-26.77-11.7-38.81,24-73.4,1.84-3.09,113.46-5.6,116.1-6.7,5.64-.89,4.84-12.6,2.8-16-97.8-77.6-131.9-101.4-136.5-101.2Zm-173.9-73.8l61.5,17.7,2.1-13.5c-3.13,3.82-119.49-34.59-63.6-4.2Z" />
           </g>
           <g id="Bröjkholmen">
-            <path
-              class="cls-1"
-              d="m143.92,430.68c-2.27-8.07,8.07-46.75.7-40.4-.46,1.57.56-5.34.1-4.9,4.75,5.08,11.21-24.15,8.9-38.71-12.54-30.68-84.73-41.24-113.14-38.5,5.34,17.63,20.77,57.9-1.25,81.37-6.15,14.85-10.04,35.16-21.57,43.19-1.37,1.38-.31,3.59,1.57,3.61,7.21,2.93,10.69,4.03,15.33,11.2,5.74,6.23,16.71,4.14,20.85,11.28,26.59,17.9,103.94,18,88.51-28.15Z"
-            />
+            <path d="m143.92,430.68c-2.27-8.07,8.07-46.75.7-40.4-.46,1.57.56-5.34.1-4.9,4.75,5.08,11.21-24.15,8.9-38.71-12.54-30.68-84.73-41.24-113.14-38.5,5.34,17.63,20.77,57.9-1.25,81.37-6.15,14.85-10.04,35.16-21.57,43.19-1.37,1.38-.31,3.59,1.57,3.61,7.21,2.93,10.69,4.03,15.33,11.2,5.74,6.23,16.71,4.14,20.85,11.28,26.59,17.9,103.94,18,88.51-28.15Z" />
           </g>
         </svg>
+        <Footer />
       </div>
     );
   }

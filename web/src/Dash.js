@@ -6,8 +6,7 @@ import LedCard from "./components/LedCard";
 import Footer from "./components/Footer";
 
 function Dash() {
-  const [serialStatus, setSerialStatus] = useState("Serial: 🟥");
-  const [websocketStatus, setWebsocketStatus] = useState("Websocket: 🟥");
+  const [serialStatus, setSerialStatus] = useState("Serial: 🔴");
   const [allLed, setAllLeds] = useState([]);
   const [controlLedEvent, setControlLedEvent] = useState("");
 
@@ -15,26 +14,14 @@ function Dash() {
   const filters = [{ usbVendorId: 6790, usbProductId: 29987 }];
   var lineBuffer = "";
 
-  console.log(Config.demo, Config.serverIp);
-
   useEffect(() => {
     console.log(leds);
     setAllLeds([...leds]);
-
-    setSerialStatus("Serial: 🟨(DEMO)");
-    setWebsocketStatus("Websocket: 🟨(DEMO)");
 
     if ("serial" in navigator) {
       console.log("Serial is supported");
     }
   }, []);
-
-  useEffect(() => {
-    navigator.serial.addEventListener("connect", (event) => {
-      serialStatus = "Serial: 🟢";
-      console.log("Serial connected");
-    });
-  });
 
   function controlLed(led) {
     console.log(led);
@@ -46,25 +33,11 @@ function Dash() {
     setAllLeds([...tempArray]);
   }
 
-  // function writeSerial(led) {
-  //   if (port && port.writable) {
-  //     // Convert the string to an ArrayBuffer.
-  //     var enc = new TextEncoder();
-  //     const toState = Number(!led.state);
-  //     const value = "set," + led.id + "," + toState;
-
-  //     const bytes = new Uint8Array(enc.encode(value));
-
-  //     const writer = port.writable.getWriter();
-
-  //     writer.write(bytes);
-  //     writer.releaseLock();
-  //   }
-  // }
-
   async function serial() {
     const port = await navigator.serial.requestPort({ filters });
     await port.open({ baudRate: 115200 });
+    setSerialStatus("Serial: 🟢");
+    console.log("Serial connected");
 
     const reader = port.readable.getReader();
 
@@ -120,26 +93,20 @@ function Dash() {
   return (
     <>
       <div className="Dash text-white">
-        <section className="grid h-50 p-24 text-center bg-accent text-white">
+        <section className="dash-header grid h-50 p-24 text-center bg-accent text-white justify-center">
           <h1 className="text-4xl">Kontrollpanel</h1>
           <p>Här kan du styra hela Trossö</p>
           <button onClick={serial} className="btn-primary">
             Anslut serial
           </button>
+          <p>{serialStatus}</p>
         </section>
         <section className="grid grid-flow-row md:grid-cols-3 gap-3 p-5 ">
           {allLed.map((led) => {
-            return (
-              <LedCard
-                key={led.id}
-                led={led}
-                serialStatus={serialStatus}
-                Config={Config}
-                controlLed={controlLed}
-              />
-            );
+            return <LedCard key={led.id} led={led} controlLed={controlLed} />;
           })}
         </section>
+        <Footer />
       </div>
     </>
   );

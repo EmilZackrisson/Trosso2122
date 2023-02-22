@@ -1,4 +1,4 @@
-const LedCard = ({ led, serialStatus, Config, controlLed }) => {
+const LedCard = ({ led, controlLed }) => {
   var classes = "  ";
   var disabled = false;
   var state;
@@ -11,13 +11,6 @@ const LedCard = ({ led, serialStatus, Config, controlLed }) => {
   } else {
     state = "AV";
     toState = "SLÅ PÅ";
-  }
-  if (serialStatus.includes("🟥") && !Config.demo) {
-    disabled = true;
-    toState = toState + " (Disabled)";
-  } else if (led.disabled === true) {
-    disabled = true;
-    toState = toState;
   }
 
   if (led.source === "Server") return <> </>;
