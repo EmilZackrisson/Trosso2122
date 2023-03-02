@@ -45,10 +45,12 @@
     max-height: 1000px;
   }
   .btn-primary {
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: white;
     padding: 10px;
     border-radius: 5px;
+    width: fit-content;
+    margin: auto;
   }
   .link {
     color: var(--color-accent);

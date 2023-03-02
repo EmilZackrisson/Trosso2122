@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Config from "./config/Config";
 import leds from "./Leds";
 import { useEffect } from "react";
 import LedCard from "./components/LedCard";
@@ -8,7 +7,6 @@ import Footer from "./components/Footer";
 function Dash() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🔴");
   const [allLed, setAllLeds] = useState([]);
-  const [controlLedEvent, setControlLedEvent] = useState("");
 
   // Serial
   const filters = [{ usbVendorId: 6790, usbProductId: 29987 }];
