@@ -10,7 +10,7 @@ function App() {
         <h1 className="text-center text-4xl">Trossö 2122</h1>
         <h3 className="text-center text-xl my-3">Trossö om 100 år</h3>
       </header>
-      <main className="grid h-50 bg-white dark:bg-gray-900 text-black dark:text-white">
+      <main className="grid h-50 bg-white dark:bg-gray-900 text-black dark:text-white justify-center">
         <section className="styr-staden container">
           <div className="styr-staden-text">
             <h2 className="font-semibold text-4xl">Styr staden</h2>
