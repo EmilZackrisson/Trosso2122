@@ -3,108 +3,115 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 .material-icons {
-    font-family: "Material Icons";
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    /* Preferred icon size */
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-    /* Support for IE. */
-    font-feature-settings: "liga";
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: "liga";
 }
 
 :root {
-    --color-primary: #03045e;
-    --color-accent: #0077b6;
+  --color-primary: #03045e;
+  --color-accent: #0077b6;
 }
 
 @layer components {
-    g {
-        fill: #005b8b;
+  g {
+    fill: #005b8b;
+  }
+  .dash-header {
+    justify-items: center;
+  }
+  .clicked {
+    fill: white !important;
+  }
+  #Varv_och_Marinbas {
+    fill: gray;
+  }
+  .karta {
+    margin: 10px;
+    max-height: 1000px;
+  }
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+  }
+  .none {
+    display: none;
+  }
+  .link {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .styr-staden-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 384px;
+    align-items: flex-end;
+  }
+  .styr-staden {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 75px;
+  }
+  .bubble {
+    /* display: none; */
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 10;
+    height: max-content;
+    width: max-content;
+    right: 100px;
+    top: 100px;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+  }
+  #selAreaName {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  #selAreaDesc {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  @media screen and (max-width: 800px) {
+    section.styr-staden {
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
     }
-    .clicked {
-        fill: white !important;
+    div.styr-staden-text {
+      align-items: flex-end;
     }
-    #Varv_och_Marinbas {
-        fill: gray;
-    }
-    .karta {
-        margin: 10px;
-        max-height: 1000px;
-    }
-    .btn-primary {
-        background-color: var(--color-accent);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .link {
-        color: var(--color-accent);
-        text-decoration: none;
-    }
-    .styr-staden-text {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        width: 384px;
-        align-items: flex-end;
-    }
-    .styr-staden {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 75px;
-    }
-    .bubble {
-        /* display: none; */
-        position: absolute;
-        background-color: white;
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 10px;
-        z-index: 10;
-        height: max-content;
-        width: max-content;
-        right: 100px;
-        top: 100px;
-        -webkit-user-select: none;
-        /* Safari */
-        -ms-user-select: none;
-        /* IE 10 and IE 11 */
-        user-select: none;
-        /* Standard syntax */
-    }
-    #selAreaName {
-        font-size: 14px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    #selAreaDesc {
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-    @media screen and (max-width: 800px) {
-        section.styr-staden {
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-        }
-        div.styr-staden-text {
-            align-items: flex-end;
-        }
-    }
+  }
 }
