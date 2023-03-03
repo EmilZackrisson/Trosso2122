@@ -94,7 +94,7 @@ function Dash() {
         <section className="dash-header grid h-50 p-24 text-center bg-accent text-white justify-center">
           <h1 className="text-4xl">Kontrollpanel</h1>
           <p>Här kan du styra hela Trossö</p>
-          <button onClick={serial} className="btn-primary">
+          <button onClick={serial} className="btn-primary serial-btn-dash">
             Anslut serial
           </button>
           <p>{serialStatus}</p>
