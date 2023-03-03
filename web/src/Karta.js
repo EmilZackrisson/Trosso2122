@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import leds from "./Leds";
 import sadCat from "./sadCat.jpg";
-import Footer from "./components/Footer";
 
 function Karta() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🔴");
@@ -299,7 +298,6 @@ function Karta() {
             <path d="m143.92,430.68c-2.27-8.07,8.07-46.75.7-40.4-.46,1.57.56-5.34.1-4.9,4.75,5.08,11.21-24.15,8.9-38.71-12.54-30.68-84.73-41.24-113.14-38.5,5.34,17.63,20.77,57.9-1.25,81.37-6.15,14.85-10.04,35.16-21.57,43.19-1.37,1.38-.31,3.59,1.57,3.61,7.21,2.93,10.69,4.03,15.33,11.2,5.74,6.23,16.71,4.14,20.85,11.28,26.59,17.9,103.94,18,88.51-28.15Z" />
           </g>
         </svg>
-        <Footer />
       </div>
     );
   }

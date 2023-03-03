@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import leds from "./Leds";
 import { useEffect } from "react";
 import LedCard from "./components/LedCard";
-import Footer from "./components/Footer";
 
 function Dash() {
   const [serialStatus, setSerialStatus] = useState("Serial: 🔴");
@@ -91,7 +90,7 @@ function Dash() {
   return (
     <>
       <div className="Dash text-white">
-        <section className="dash-header grid h-50 p-24 text-center bg-accent text-white justify-center">
+        <section className="dash-header grid p-24 text-center bg-accent text-white justify-center">
           <h1 className="text-4xl">Kontrollpanel</h1>
           <p>Här kan du styra hela Trossö</p>
           <button onClick={serial} className="btn-primary serial-btn-dash">
@@ -104,7 +103,7 @@ function Dash() {
             return <LedCard key={led.id} led={led} controlLed={controlLed} />;
           })}
         </section>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );
