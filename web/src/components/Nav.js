@@ -5,7 +5,7 @@ function Nav() {
 
   return (
     
-    <nav className="nav grid bg-accent rounded h-12 content-center grid-cols-2 font-sans text-white">
+    <nav className="nav grid bg-accent h-12 content-center grid-cols-2 font-sans text-white">
       <h1 className="mx-4 justify-self-start text-lg font-semibold">
         Trossö 2122
       </h1>
