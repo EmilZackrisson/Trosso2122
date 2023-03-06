@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import TrossoBildOvan from "./TrossoBildOvan.jpg";
-import Footer from "./components/Footer";
 import kna2 from "./kna2.jpg";
 
 function App() {
   return (
     <div className="App bg-white dark:bg-gray-900 font-poppins">
-      <header className="bg-accent grid h-50 p-24">
+      <header className=" grid h-50 p-24 main-header">
+        <img id="header-img" src={kna2} alt="Bakgrundsbild på Karlskrona" />
+        <div className="header-content">
         <h1 className="text-center text-4xl">Trossö 2122</h1>
         <h3 className="text-center text-xl my-3">Trossö om 100 år</h3>
+        </div>
+        
       </header>
       <main className="main-start grid bg-white dark:bg-gray-900 text-black dark:text-white justify-center">
         <section className="styr-staden container">
           <div className="styr-staden-text">
+
             <h2 className="font-semibold text-4xl">Styr staden</h2>
             <p>Styr modellen via kartan</p>
             <Link to={"/karta"} className="btn-primary">
@@ -28,7 +32,6 @@ function App() {
             />
           </div>
         </section>
-        {/* <img id="bg-img" src={kna2} alt="Bakgrundsbild på Karlskrona" /> */}
       </main>
       {/* <Footer /> */}
     </div>
