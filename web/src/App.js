@@ -19,7 +19,7 @@ function App() {
           <div className="styr-staden-text">
 
             <h2 className="font-semibold text-4xl">Styr staden</h2>
-            <p>Styr modellen via kartan</p>
+            <p>Styr vår interaktiva modell av staden</p>
             <Link to={"/karta"} className="btn-primary">
               Gå till kartan
             </Link>
