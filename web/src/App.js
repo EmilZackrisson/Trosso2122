@@ -10,8 +10,8 @@ function App() {
       <header className="grid h-[calc(100vh-48px)] p-24 main-header place-items-center">
         <img id="header-img" src={Flygfoto} alt="Bakgrundsbild på Karlskrona" className=""/>
         <div className="header-content">
-          <h1 className="text-center text-5xl">Trossö 2122</h1>
-          <h3 className="text-center text-xl my-3">Trossö om 100 år</h3>
+          <h1 className="text-center text-7xl">Trossö 2122</h1>
+          <h3 className="text-center text-2xl my-3">Trossö om 100 år</h3>
         </div>
         <div class="scroll-downs">
           <div class="mousey">
