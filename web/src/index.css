@@ -3,139 +3,178 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 .material-icons {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-  /* Support for IE. */
-  font-feature-settings: "liga";
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: "liga";
 }
 
 :root {
-  --color-primary: #03045e;
-  --color-accent: #0077b6;
+    --color-primary: #03045e;
+    --color-accent: #0077b6;
 }
 
 @layer components {
-  g {
-    fill: #005b8b;
-  }
-  .clicked {
-    fill: white !important;
-  }
-  #Varv_och_Marinbas {
-    fill: gray;
-  }
-  .btn-primary {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    width: fit-content;
-  }
-  .serial-btn-dash {
-    margin: auto;
-    background-size: cover;
-  }
-  .link {
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-  .styr-staden-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    width: 384px;
-    align-items: flex-end;
-  }
-  .styr-staden {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 75px;
-    z-index: 10;
-  }
-  .main-header {
-    position: relative;
-    background-color: var(--color-accent);
-    z-index: 0;
-    overflow: hidden;
-  }
-  .header-content {
-    z-index: 10;
-    color: white;
-  }
-  #header-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.2;
-  }
-  .footer {
-    width: 100%;
-    height: 40px;
-    background-color: var(--color-accent);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    position: absolute;
-    bottom: 0;
-    z-index: 69;
-  }
-  .routes {
-    padding-bottom: 20px;
-  }
-  @media screen and (max-width: 800px) {
-    section.styr-staden {
-      flex-direction: column;
-      align-items: center;
-      padding: 15px;
+    g {
+        fill: #005b8b;
     }
-    div.styr-staden-text {
-      align-items: flex-end;
+    .clicked {
+        fill: white !important;
     }
-  }
-
-  .karta-page {
-    display: flex;
-    flex-direction: row;
-    justify-self: start;
-    width: 100%;
-    height: calc(100vh - 40px - 3rem);
-  }
-  .karta-aside {
-    width: 40%;
-    height: 100%;
-    background-color: #272a30;
-    padding: 10px;
-    color: white;
-  }
-  .karta-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hidden {
-    display: none;
-  }
+    #Varv_och_Marinbas {
+        fill: gray;
+    }
+    .btn-primary {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        width: fit-content;
+    }
+    .serial-btn-dash {
+        margin: auto;
+        background-size: cover;
+    }
+    .link {
+        color: var(--color-accent);
+        text-decoration: none;
+    }
+    .styr-staden-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        width: 384px;
+        align-items: flex-end;
+    }
+    /* .styr-staden {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 75px;
+        z-index: 10;
+    } */
+    .main-header {
+        position: relative;
+        background-color: var(--color-accent);
+        z-index: 0;
+        overflow: hidden;
+    }
+    .header-content {
+        z-index: 10;
+        color: white;
+    }
+    #header-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.2;
+    }
+    .footer {
+        width: 100%;
+        height: 40px;
+        background-color: var(--color-accent);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        position: absolute;
+        bottom: 0;
+        z-index: 69;
+    }
+    .routes {
+        padding-bottom: 20px;
+    }
+    @media screen and (max-width: 800px) {
+        section.styr-staden {
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        div.styr-staden-text {
+            align-items: flex-end;
+        }
+    }
+    .karta-page {
+        display: flex;
+        flex-direction: row;
+        justify-self: start;
+        width: 100%;
+        height: calc(100vh - 40px - 3rem);
+    }
+    .karta-aside {
+        width: 40%;
+        height: 100%;
+        background-color: #272a30;
+        padding: 10px;
+        color: white;
+    }
+    .karta-section {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .hidden {
+        display: none;
+    }
+    .scroll-downs {
+        position: absolute;
+        right: 0;
+        bottom: 25px;
+        left: 0;
+        margin: auto;
+        width: 34px;
+        height: 55px;
+    }
+    .mousey {
+        width: 3px;
+        padding: 10px 15px;
+        height: 35px;
+        border: 2px solid #fff;
+        border-radius: 25px;
+        opacity: 0.75;
+        box-sizing: content-box;
+    }
+    .scroller {
+        width: 3px;
+        height: 10px;
+        border-radius: 25%;
+        background-color: #fff;
+        animation-name: scroll;
+        animation-duration: 2.2s;
+        animation-timing-function: cubic-bezier(.15, .41, .69, .94);
+        animation-iteration-count: infinite;
+    }
+    @keyframes scroll {
+        0% {
+            opacity: 0;
+        }
+        10% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(15px);
+            opacity: 0;
+        }
+    }
 }

@@ -1,55 +1,29 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
-  theme: {
-    colors: {
-      main: "#03045e",
-      accent: "#0077b6",
-      white: "#ffffff",
-      aqua: "#00b4d8",
-      black: "#000000",
-      gray: {
-        100: "#f3f4f6",
-        200: "#e5e7eb",
-        300: "#d1d5db",
-        400: "#9ca3af",
-        500: "#6b7280",
-        600: "#4b5563",
-        700: "#374151",
-        800: "#1f2937",
-        900: "#111827",
-      },
-      blue: {
-        50: "#ebf5ff",
-        100: "#ebf8ff",
-        200: "#bee3f8",
-        300: "#90cdf4",
-        400: "#63b3ed",
-        500: "#4299e1",
-        600: "#3182ce",
-        700: "#2b6cb0",
-        800: "#2c5282",
-        900: "#2a4365",
-      },
-      red: {
-        50: "#fdf2f2",
-        100: "#fff5f5",
-        200: "#fed7d7",
-        300: "#feb2b2",
-        400: "#fc8181",
-        500: "#f56565",
-        600: "#e53e3e",
-        700: "#c53030",
-        800: "#9b2c2c",
-        900: "#742a2a",
-      },
+    content: ["./src/**/*.{html,js}"],
+    daisyui: {
+        themes: [{
+            mytheme: {
+
+                "primary": "#03045e",
+
+                "secondary": "#0077b6",
+
+                "accent": "#7d19e8",
+
+                "neutral": "#27263B",
+
+                "base-100": "#3B525E",
+
+                "info": "#5166D2",
+
+                "success": "#19AE95",
+
+                "warning": "#AC8E06",
+
+                "error": "#FA5C61",
+            },
+        }, ],
     },
-    fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
-      poppins: ["Poppins", "sans-serif"],
-    },
-    extend: {},
-  },
-  plugins: [],
+    plugins: [require("daisyui")],
 };

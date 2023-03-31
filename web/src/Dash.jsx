@@ -90,10 +90,10 @@ function Dash() {
   return (
     <>
       <div className="Dash text-white">
-        <section className="dash-header grid p-24 text-center bg-accent text-white justify-center">
+        <section className="dash-header grid p-24 text-center bg-secondary text-white justify-center">
           <h1 className="text-4xl">Kontrollpanel</h1>
           <p>Här kan du styra hela Trossö</p>
-          <button onClick={serial} className="btn-primary serial-btn-dash">
+          <button onClick={serial} className="btn btn-primary serial-btn-dash">
             Anslut serial
           </button>
           <p>{serialStatus}</p>

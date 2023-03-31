@@ -18,7 +18,7 @@ const LedCard = ({ led, controlLed }) => {
   return (
     <div
       className={
-        classes + "led bg-accent text-white p-5 m-5 rounded-lg grid grid-rows-5"
+        classes + "led bg-secondary text-white p-5 m-5 rounded-lg grid grid-rows-5"
       }
       id={led.id}
       key={led.id}
