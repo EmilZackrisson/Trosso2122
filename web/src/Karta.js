@@ -165,22 +165,24 @@ function Karta() {
                                    className="w-10/12"
                               />
                          )}
-                         {selArea.hasPage && (
-                              <Link
-                                   to={"/omrade/" + selArea.name}
-                                   className="btn-primary mt-5"
-                              >
-                                   Läs mer
-                              </Link>
-                         )}
+                         <div className="karta-aside-buttons flex flex-col">
+                              {selArea.hasPage && (
+                                   <Link
+                                        to={"/omrade/" + selArea.name}
+                                        className="btn-primary mt-5"
+                                   >
+                                        Läs mer
+                                   </Link>
+                              )}
 
-                         <button
-                              className="btn-primary mt-5"
-                              id="serialBtn"
-                              onClick={serial}
-                         >
-                              Anslut seriell
-                         </button>
+                              <button
+                                   className="btn-primary mt-5"
+                                   id="serialBtn"
+                                   onClick={serial}
+                              >
+                                   Anslut seriell
+                              </button>
+                         </div>
                     </aside>
                     <section className="karta-section">
                          <svg
