@@ -29,7 +29,7 @@ var leds = [{
     {
         id: 5,
         state: false,
-        name: "Bostäder_och_Butiker",
+        name: "Bostäder_och_butiker",
         info: "Bostäder och butiker",
         disabled: false,
     },
