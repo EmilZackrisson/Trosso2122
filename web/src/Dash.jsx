@@ -88,8 +88,8 @@ function Dash() {
   }
 
   return (
-    <>
-      <div className="Dash text-white">
+    <main>
+      <div className="Dash text-white mb-5">
         <section className="dash-header grid p-24 text-center bg-secondary text-white justify-center">
           <h1 className="text-4xl">Kontrollpanel</h1>
           <p>Här kan du styra hela Trossö</p>
@@ -98,14 +98,13 @@ function Dash() {
           </button>
           <p>{serialStatus}</p>
         </section>
-        <section className="grid grid-flow-row md:grid-cols-3 gap-3 p-5 ">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {allLed.map((led) => {
             return <LedCard key={led.id} led={led} controlLed={controlLed} />;
           })}
         </section>
-        {/* <Footer /> */}
       </div>
-    </>
+    </main>
   );
 }
 

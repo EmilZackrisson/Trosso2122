@@ -18,16 +18,17 @@ const LedCard = ({ led, controlLed }) => {
   return (
     <div
       className={
-        classes + "led bg-secondary text-white p-5 m-5 rounded-lg grid grid-rows-5"
+        classes + "led bg-secondary text-white p-5 m-5 rounded-lg flex flex-col"
       }
       id={led.id}
       key={led.id}
     >
-      <p> Namn: {led.name} </p> <p> Tillstånd: {state} </p>{" "}
+      <p> Namn: {led.name} </p> <p> Tillstånd: {state} </p>
       <p> Pin: {led.id} </p> <p> {led.info} </p>
       <button
-        className="btn p-2 bg-aqua rounded-lg disabled:bg-red-700"
-        id={led.id}
+        className="btn p-2 bg-aqua rounded-lg disabled:bg-red-700 justify-self-end"
+        // id={led.id}
+        type="button"
         onClick={(e) => {
           if (!led.disabled) {
             controlLed(led);
@@ -35,8 +36,8 @@ const LedCard = ({ led, controlLed }) => {
         }}
         disabled={disabled}
       >
-        {toState}{" "}
-      </button>{" "}
+        {toState}
+      </button>
     </div>
   );
 };

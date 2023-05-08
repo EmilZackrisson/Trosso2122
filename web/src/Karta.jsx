@@ -169,14 +169,14 @@ function Karta() {
                               {selArea.hasPage && (
                                    <Link
                                         to={"/omrade/" + selArea.name}
-                                        className="btn-primary mt-5"
+                                        className="btn btn-secondary mt-5"
                                    >
                                         Läs mer
                                    </Link>
                               )}
 
                               <button
-                                   className="btn-primary mt-5"
+                                   className="btn btn-accent mt-5"
                                    id="serialBtn"
                                    onClick={serial}
                               >
