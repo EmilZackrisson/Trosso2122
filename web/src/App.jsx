@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import TrossoBildOvan from "./TrossoBildOvan.jpg";
-import kna2 from "./kna2.jpg";
-import Flygfoto from "./trossöFlygfoto.jpg";
+import TrossoBildOvan from "./TrossoBildOvan.webp";
+import Flygfoto from "./trossöFlygfoto.webp";
 
 function App() {
   return (
@@ -18,16 +17,19 @@ function App() {
           <h1 className="text-center text-7xl">Trossö 2122</h1>
           <h2 className="text-center text-2xl my-3">Trossö om 100 år</h2>
         </div>
+        <a href="#styr-staden">
         <div class="scroll-downs">
           <div class="mousey">
-            <div class="scroller"></div>
+            <div class="scroller" >
+            </div>
           </div>
         </div>
+        </a>
       </header>
       <main className="main-start grid bg-white dark:bg-gray-900 text-black dark:text-white justify-center">
         <section className="styr-staden container h-screen flex lg:flex-row sm:flex-col sm:justify-end ">
           <div className="styr-staden-text">
-            <h3 className="font-semibold text-4xl">Styr staden</h3>
+            <h3 className="font-semibold text-4xl" id="styr-staden">Styr staden</h3>
             <p>Styr vår interaktiva modell av staden</p>
             <Link to={"/karta"} className="btn btn-secondary">
               Gå till kartan
@@ -36,7 +38,7 @@ function App() {
           <img
             src={TrossoBildOvan}
             alt="Bild på Trossö från ovan"
-            className="sm:w-12/12 w-4/12 object-contain"
+            className="w-10/12 lg:w-4/12 object-contain"
           />
         </section>
       </main>

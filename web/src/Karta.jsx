@@ -163,7 +163,7 @@ function Karta() {
             )}
 
             <button
-              className="btn btn-accent mt-5"
+              className="btn btn-secondary mt-5"
               id="serialBtn"
               onClick={serial}
             >
@@ -176,7 +176,7 @@ function Karta() {
             id="Layer_1"
             data-name="Layer 1"
             className="kartaSvg"
-            height="90%"
+          //   height="90%"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1920 1080"
             preserveAspectRatio="xMidYMax slice"

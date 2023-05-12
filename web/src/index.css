@@ -137,6 +137,7 @@
         margin: auto;
         width: 34px;
         height: 55px;
+        z-index: 50;
     }
     .mousey {
         width: 3px;
